@@ -361,3 +361,42 @@ import { FormsModule } from '@angular/forms';
   imports: [
     FormsModule
 ```
+
+**debugger 설명**
+```js
+debugger
+```
+
+## Members Service CRUD
+### Read
+src/app/services/members.service.ts
+```ts
+membersRead() {
+  this.members = [{
+    name: '홍길동',
+    age: 20
+  }, {
+    name: '춘향이',
+    age: 16
+  }];
+  console.log('Done membersRead', this.members);
+}
+```
+
+src/app/members/members.component.ts
+```ts
+ngOnInit(): void {
+  this.membersService.membersRead()
+```
+
+src/app/members/members.component.html
+```diff
+- <tr>
+-   <td>홍길동</td>
+-   <td>20</td>
+```
+```html
+<tr *ngFor="let member of membersService.members; let index=index">
+  <td>{{member.name}}</td>
+  <td>{{member.age}}</td>
+```
