@@ -144,6 +144,10 @@ h1, footer {
   margin: 0.5rem;
 }
 
+app-nav {
+  @extend .flex;
+}
+
 .container {
   @extend .flex;
   min-height: 300px;
@@ -173,3 +177,58 @@ h1, footer {
   }
 }
 ```
+
+## Angular Component 만들기
+header, nav.vue, footer.vue 이렇게 Component 별로 파일을 생성한다.
+```sh
+ng generate component header
+ng generate component nav
+ng generate component footer
+```
+
+src/app/app.component.html
+```diff
+- <header>
+-  <h1>Vue.js study</h1>
+- </header>
++ <app-header></app-header>
+
+- <nav class="nav">
+-   <ul>
+-     <li><h2>Members</h2></li>
+-     <li><h2>Search</h2></li>
+-   </ul>
+- </nav>
++ <app-nav></app-nav>
+
+- <footer>Copyright</footer>
++ <app-footer></app-footer>
+```
+
+## hidden, *ngIf, props
+src/app/app.component.html
+```html
+<app-header [hidden]="true"></app-header>
+
+<app-nav *ngIf="false"></app-nav>
+
+<app-footer [title]="'카피라이트'"></app-footer>
+```
+
+src/app/footer/footer.component.html
+```diff
+- <footer>Copyright</footer>
++ <footer>{{title}}</footer>
+```
+
+src/app/footer/footer.component.ts
+```diff
+- import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+```
+```ts
+export class FooterComponent implements OnInit {
+  @Input() title = 'Copyright';
+}
+```
+**props는 부모 Component에서 자식 Component로 값을 전달 한다**
