@@ -232,3 +232,45 @@ export class FooterComponent implements OnInit {
 }
 ```
 **props는 부모 Component에서 자식 Component로 값을 전달 한다**
+
+## Angular router
+```sh
+ng generate component members
+ng generate component search
+```
+
+src/app/app.component.html
+```diff
+  <section class="contents">
+-   <div>
+-     <h3>Members</h3>
+-     <p>Contents</p>
+-   </div>
++   <router-outlet></router-outlet>
+```
+
+src/app/app-routing.module.ts
+```ts
+import { MembersComponent } from './members/members.component';
+import { SearchComponent } from './search/search.component';
+```
+```diff
+- const routes: Routes = [];
+```
+```ts
+const routes: Routes = [
+  { path: 'members', component: MembersComponent },
+  { path: 'search', component: SearchComponent },
+  { path: '', redirectTo: '/members', pathMatch: 'full' }
+];
+```
+
+**주소 창에서 router 바꾸어 보기**
+
+src/app/nav/components/nav.component.html
+```html
+<li><h2><a routerLink="/members" routerLinkActive="active">Members</a></h2></li>
+<li><h2><a routerLink="/search" routerLinkActive="active">Search</a></h2></li>
+```
+
+**여기 까지가 Markup 개발자 분들이 할일 입니다.**
