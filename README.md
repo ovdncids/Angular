@@ -229,7 +229,6 @@ import { Component, Input, OnInit } from '@angular/core';
 ```ts
 export class FooterComponent implements OnInit {
   @Input() title = 'Copyright';
-}
 ```
 **props는 부모 Component에서 자식 Component로 값을 전달 한다**
 
@@ -274,3 +273,91 @@ src/app/nav/components/nav.component.html
 ```
 
 **여기 까지가 Markup 개발자 분들이 할일 입니다.**
+
+## Members Service 만들기
+```sh
+ng generate service services/members
+```
+src/app/services/members.service.ts
+```ts
+members = [];
+member = {
+  name: '',
+  age: ''
+};
+
+membersCreate() {
+  this.members.push({
+    name: this.member.name,
+    age: this.member.age
+  });
+  console.log('Done membersCreate', this.members);
+}
+```
+
+src/app/members/members.component.ts
+```ts
+import { MembersService } from '../services/members.service';
+```
+```diff
+- constructor() { }
++ constructor(public membersService: MembersService) { }
+```
+```ts
+ngOnInit(): void {
+  this.membersService.member.name = '';
+  this.membersService.member.age = '';
+```
+
+src/app/members/members.component.html
+```html
+<div>
+  <h3>Members</h3>
+  <hr class="d-block" />
+  <div>
+    <h4>Read</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Modify</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>홍길동</td>
+          <td>20</td>
+          <td>
+            <button>Update</button>
+            <button>Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <hr class="d-block" />
+  <div>
+    <h4>Create</h4>
+    <input type="text" placeholder="Name"
+      [ngModel]="membersService.member.name"
+      (ngModelChange)="membersService.member.name = $event"
+    >
+    <input type="text" placeholder="Age"
+      [ngModel]="membersService.member.age"
+      (ngModelChange)="membersService.member.age = $event"
+    >
+    <button (click)="membersService.membersCreate()">Create</button>
+  </div>
+</div>
+```
+
+src/app/app.module.ts
+```ts
+import { FormsModule } from '@angular/forms';
+```
+```ts
+@NgModule({
+  imports: [
+    FormsModule
+```
