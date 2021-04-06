@@ -400,3 +400,38 @@ src/app/members/members.component.html
   <td>{{member.name}}</td>
   <td>{{member.age}}</td>
 ```
+
+### Update
+src/app/services/members.service.ts
+```ts
+membersUpdate(index, member) {
+  this.members[index] = member;
+  console.log('Done membersUpdate', this.members);
+}
+```
+
+src/app/members/members.component.ts
+```diff
+- <td>{member.name}</td>
+- <td>{member.age}</td>
+```
+```html
+<td>
+  <input type="text" placeholder="Name"
+    [ngModel]="member.name"
+    (ngModelChange)="member.name = $event"
+  >
+</td>
+<td>
+  <input type="text" placeholder="Age"
+    [ngModel]="member.age"
+    (ngModelChange)="member.age = $event"
+  >
+</td>
+```
+```diff
+- <button>Update</button>
+```
+```html
+<button (click)="membersService.membersUpdate(index, member)">Update</button>
+```
