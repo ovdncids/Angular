@@ -189,7 +189,7 @@ ng generate component footer
 src/app/app.component.html
 ```diff
 - <header>
--  <h1>Vue.js study</h1>
+-  <h1>Angular study</h1>
 - </header>
 + <app-header></app-header>
 
@@ -434,4 +434,134 @@ src/app/members/members.component.ts
 ```
 ```html
 <button (click)="membersService.membersUpdate(index, member)">Update</button>
+```
+
+## Delete
+src/app/services/members.service.ts
+```ts
+membersDelete(index) {
+  this.members.splice(index, 1);
+  console.log('Done membersDelete', this.members);
+}
+```
+
+src/app/members/members.component.ts
+```diff
+- <button>Delete</button>
+```
+```html
+<button (click)="membersService.membersDelete(index)">Delete</button>
+```
+
+## Backend Server
+* [Download](https://github.com/ovdncids/vue-curriculum/raw/master/download/express-server.zip)
+```sh
+# BE 서버 실행 방법
+npm install
+node index.js
+# 터미널 종료
+Ctrl + c
+```
+
+## Axios 서버 연동
+https://github.com/axios/axios
+```sh
+npm install axios
+```
+
+### Axios common 에러 처리
+```sh
+ng generate service services/common
+```
+
+src/app/services/common.service.js
+```js
+export class CommonService {
+  axiosError(error) {
+    console.error(error.response || error.message || error);
+  };
+```
+
+src/app/services/members.service.ts
+```ts
+import axios from 'axios';
+import { CommonService } from '../services/common.service';
+```
+```diff
+- constructor() {}
++ constructor(private commonService: CommonService) {}
+```
+```diff
+membersCreate() {
+- this.members.push({
+-   name: this.member.name,
+-   age: this.member.age
+- })
+- console.log('Done membersCreate', this.members);
+```
+```ts
+axios.post('http://localhost:3100/api/v1/members', this.member).then((response) => {
+  console.log('Done membersCreate', response);
+  this.membersRead();
+}).catch((error) => {
+  this.commonService.axiosError(error);
+});
+```
+
+### Read
+src/app/services/members.service.ts
+```diff
+membersRead() {
+- this.members = [{
+-   name: '홍길동',
+-   age: 20
+- }, {
+-   name: '춘향이',
+-   age: 16
+- }];
+- console.log('Done membersRead', this.members);
+```
+```ts
+axios.get('http://localhost:3100/api/v1/members').then((response) => {
+  console.log('Done membersRead', response);
+  this.members = response.data.members;
+}).catch((error) => {
+  this.commonService.axiosError(error);
+});
+```
+
+### Update
+src/app/services/members.service.ts
+```diff
+membersUpdate(index, member) {
+- this.members[index] = member;
+- console.log('Done membersUpdate', this.members);
+```
+```ts
+const memberUpdate = {
+  index: index,
+  member: member,
+}
+axios.patch('http://localhost:3100/api/v1/members', memberUpdate).then((response) => {
+  console.log('Done membersUpdate', response);
+  this.membersRead();
+}).catch((error) => {
+  this.commonService.axiosError(error);
+});
+```
+
+### Delete
+src/app/services/members.service.ts
+```diff
+membersDelete(index) {
+- this.members.splice(index, 1);
+- console.log('Done membersDelete', this.members);
+```
+```ts
+axios.delete('http://localhost:3100/api/v1/members/' + index).then((response) => {
+  console.log('Done membersDelete', response);
+  this.membersRead();
+}).catch((error) => {
+  this.commonService.axiosError(error);
+});
 ```
