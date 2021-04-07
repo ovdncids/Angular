@@ -587,8 +587,8 @@ constructor(
   private membersService: MembersService
 ) {}
 
-searchRead(search) {
-  const url = `http://localhost:3100/api/v1/search?search=${search}`;
+searchRead(q) {
+  const url = `http://localhost:3100/api/v1/search?q=${q}`;
   axios.get(url).then((response) => {
     console.log('Done searchRead', response);
     membersStore.members = response.data.members;
@@ -675,15 +675,15 @@ constructor(
   public membersService: MembersService,
   public searchService: SearchService
 ) {
-  route.queryParams.subscribe(queryParams => {
-    this.q = queryParams.q
+  this.route.queryParams.subscribe(queryParams => {
+    this.q = queryParams.q || ''
     this.searchService.searchRead(this.q);
   });
 }
 ```
 ```diff
-- q = '';
-+ q = this.route.snapshot.queryParams.q || '';
+ngOnInit(): void {
+- this.searchService.searchRead(this.q);
 ```
 ```html
 searchRead(q): void {
@@ -700,3 +700,32 @@ src/app/search/search.component.html
 - <form (submit)="searchService.searchRead(q)">
 + <form (submit)="searchRead(q)">
 ```
+
+## Proxy 설정
+proxy.conf.json
+```json
+{
+  "/api/*": {
+    "target": "http://localhost:3100"
+  }
+}
+```
+
+package.json
+```diff
+- "start": "ng serve",
++ "start": "ng serve --open --proxy-config proxy.conf.json",
+```
+
+모든 파일 수정
+```diff
+- http://localhost:3100/api
++ /api
+```
+
+당황 하지 말고 다시 실행
+```sh
+npm start
+```
+
+# 수고 하셨습니다.
