@@ -388,7 +388,7 @@ membersRead() {
 src/app/members/members.component.ts
 ```ts
 ngOnInit(): void {
-  this.membersService.membersRead()
+  this.membersService.membersRead();
 ```
 
 src/app/members/members.component.html
@@ -584,7 +584,7 @@ import { CommonService } from '../services/common.service';
 ```ts
 constructor(
   private commonService: CommonService,
-  public membersService: MembersService
+  private membersService: MembersService
 ) {}
 
 searchRead(search) {
@@ -600,4 +600,59 @@ searchRead(search) {
 
 ## Search Compenent Service inject
 src/app/search/search.component.ts
+```ts
+import { MembersService } from '../services/members.service';
+import { SearchService } from '../services/search.service';
+```
+```diff
+- constructor() { }
 
+- ngOnInit(): void {
+- }
+```
+```ts
+constructor(
+  public membersService: MembersService,
+  public searchService: SearchService
+) { }
+
+search = '';
+
+ngOnInit(): void {
+  this.membersService.membersRead();
+}
+```
+
+src/app/search/search.component.html
+```html
+<div>
+  <h3>Search</h3>
+  <hr class="d-block" />
+  <div>
+    <form (submit)="searchService.searchRead(search)">
+      <input type="text" placeholder="Search" name="search"
+        [ngModel]="search"
+        (ngModelChange)="search = $event"
+      />
+      <button>Search</button>
+    </form>
+  </div>
+  <hr class="d-block" />
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let member of membersService.members; let index=index">
+          <td>{{member.name}}</td>
+          <td>{{member.age}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+```
