@@ -280,21 +280,23 @@ ng generate service services/members
 ```
 src/app/services/members.service.ts
 ```ts
-members = [];
-member = {
-  name: '',
-  age: ''
-};
+export class MembersService {
+  members = [];
+  member = {
+    name: '',
+    age: ''
+  };
 
-membersCreate() {
-  this.members.push({
-    name: this.member.name,
-    age: this.member.age
-  });
-  console.log('Done membersCreate', this.members);
-}
+  membersCreate() {
+    this.members.push({
+      name: this.member.name,
+      age: this.member.age
+    });
+    console.log('Done membersCreate', this.members);
+  }
 ```
 
+## Members Compenent Service inject
 src/app/members/members.component.ts
 ```ts
 import { MembersService } from '../services/members.service';
@@ -410,7 +412,7 @@ membersUpdate(index, member) {
 }
 ```
 
-src/app/members/members.component.ts
+src/app/members/members.component.html
 ```diff
 - <td>{member.name}</td>
 - <td>{member.age}</td>
@@ -445,7 +447,7 @@ membersDelete(index) {
 }
 ```
 
-src/app/members/members.component.ts
+src/app/members/members.component.html
 ```diff
 - <button>Delete</button>
 ```
@@ -565,3 +567,37 @@ axios.delete('http://localhost:3100/api/v1/members/' + index).then((response) =>
   this.commonService.axiosError(error);
 });
 ```
+
+## Search Service 만들기
+```sh
+ng generate service services/search
+```
+
+src/app/services/search.service.ts
+```ts
+import axios from 'axios';
+import { CommonService } from '../services/common.service';
+```
+```diff
+- constructor() { }
+```
+```ts
+constructor(
+  private commonService: CommonService,
+  public membersService: MembersService
+) {}
+
+searchRead(search) {
+  const url = `http://localhost:3100/api/v1/search?search=${search}`;
+  axios.get(url).then((response) => {
+    console.log('Done searchRead', response);
+    membersStore.members = response.data.members;
+  }).catch((error) => {
+    axiosError(error);
+  });
+}
+```
+
+## Search Compenent Service inject
+src/app/search/search.component.ts
+
