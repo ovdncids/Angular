@@ -616,10 +616,10 @@ constructor(
   public searchService: SearchService
 ) { }
 
-search = '';
+q = '';
 
 ngOnInit(): void {
-  this.membersService.membersRead();
+  this.searchService.searchRead(this.q);
 }
 ```
 
@@ -629,10 +629,10 @@ src/app/search/search.component.html
   <h3>Search</h3>
   <hr class="d-block" />
   <div>
-    <form (submit)="searchService.searchRead(search)">
-      <input type="text" placeholder="Search" name="search"
-        [ngModel]="search"
-        (ngModelChange)="search = $event"
+    <form (submit)="searchService.searchRead(q)">
+      <input type="text" placeholder="Search" name="q"
+        [ngModel]="q"
+        (ngModelChange)="q = $event"
       />
       <button>Search</button>
     </form>
@@ -655,4 +655,48 @@ src/app/search/search.component.html
     </table>
   </div>
 </div>
+```
+
+## Search Component 쿼리스트링 변경과 새로고침 적용
+src/app/search/search.component.ts
+```ts
+import { ActivatedRoute, Router } from '@angular/router';
+```
+```diff
+- constructor(
+-   public membersService: MembersService,
+-   public searchService: SearchService
+- ) { }
+```
+```ts
+constructor(
+  private route: ActivatedRoute,
+  private router: Router,
+  public membersService: MembersService,
+  public searchService: SearchService
+) {
+  route.queryParams.subscribe(queryParams => {
+    this.q = queryParams.q
+    this.searchService.searchRead(this.q);
+  });
+}
+```
+```diff
+- q = '';
++ q = this.route.snapshot.queryParams.q || '';
+```
+```html
+searchRead(q): void {
+  this.router.navigate(['/search'], {
+    queryParams: {
+      q: q
+    }
+  });
+}
+```
+
+src/app/search/search.component.html
+```diff
+- <form (submit)="searchService.searchRead(q)">
++ <form (submit)="searchRead(q)">
 ```
