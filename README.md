@@ -726,5 +726,19 @@ package.json
 npm start
 ```
 
+<!-- ## Angular for IE11
+tsconfig.json
+```diff
+- "target": "es2015",
++ "target": "es5",
+```
+
+.browserslistrc
+```diff
+- not IE 11
++ IE 11
+```
+-->
+
 # 수고 하셨습니다.
 * [데모](https://ovdncids.github.io/angular-curriculum/demo)
