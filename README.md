@@ -179,9 +179,9 @@ input[type=text] {
 ## Angular Component 만들기
 header, nav.vue, footer.vue 이렇게 Component 별로 파일을 생성한다.
 ```sh
-ng generate component header
-ng generate component nav
-ng generate component footer
+ng generate component components/header
+ng generate component components/nav
+ng generate component components/footer
 ```
 
 src/app/app.component.html
@@ -213,13 +213,13 @@ src/app/app.component.html
 <app-footer [title]="'카피라이트'"></app-footer>
 ```
 
-src/app/footer/footer.component.html
+src/app/components/footer/footer.component.html
 ```diff
 - <footer>Copyright</footer>
 + <footer>{{title}}</footer>
 ```
 
-src/app/footer/footer.component.ts
+src/app/components/footer/footer.component.ts
 ```diff
 - import { Component, OnInit } from '@angular/core';
 import { Component, Input, OnInit } from '@angular/core';
@@ -232,8 +232,8 @@ export class FooterComponent implements OnInit {
 
 ## Angular router
 ```sh
-ng generate component members
-ng generate component search
+ng generate component components/contents/members
+ng generate component components/contents/search
 ```
 
 src/app/app.component.html
@@ -248,8 +248,8 @@ src/app/app.component.html
 
 src/app/app-routing.module.ts
 ```ts
-import { MembersComponent } from './members/members.component';
-import { SearchComponent } from './search/search.component';
+import { MembersComponent } from './components/contents/members/members.component';
+import { SearchComponent } from './components/contents/search/search.component';
 ```
 ```diff
 - const routes: Routes = [];
@@ -264,7 +264,7 @@ const routes: Routes = [
 
 **주소 창에서 router 바꾸어 보기**
 
-src/app/nav/components/nav.component.html
+src/app/components/nav/nav.component.html
 ```html
 <li><h2><a routerLink="/members" routerLinkActive="active">Members</a></h2></li>
 <li><h2><a routerLink="/search" routerLinkActive="active">Search</a></h2></li>
@@ -295,9 +295,9 @@ export class MembersService {
 ```
 
 ## Members Compenent Service inject
-src/app/members/members.component.ts
+src/app/components/contents/members/members.component.ts
 ```ts
-import { MembersService } from '../services/members.service';
+import { MembersService } from '../../../services/members.service';
 ```
 ```diff
 - constructor() { }
@@ -309,7 +309,7 @@ ngOnInit(): void {
   this.membersService.member.age = '';
 ```
 
-src/app/members/members.component.html
+src/app/components/contents/members/members.component.html
 ```html
 <div>
   <h3>Members</h3>
@@ -383,13 +383,13 @@ membersRead() {
 }
 ```
 
-src/app/members/members.component.ts
+src/app/components/contents/members/members.component.ts
 ```ts
 ngOnInit(): void {
   this.membersService.membersRead();
 ```
 
-src/app/members/members.component.html
+src/app/components/contents/members/members.component.html
 ```diff
 - <tr>
 -   <td>홍길동</td>
@@ -410,7 +410,7 @@ membersUpdate(index, member) {
 }
 ```
 
-src/app/members/members.component.html
+src/app/components/contents/members/members.component.html
 ```diff
 - <td>{member.name}</td>
 - <td>{member.age}</td>
@@ -445,7 +445,7 @@ membersDelete(index) {
 }
 ```
 
-src/app/members/members.component.html
+src/app/components/contents/members/members.component.html
 ```diff
 - <button>Delete</button>
 ```
@@ -485,7 +485,7 @@ export class CommonService {
 src/app/services/members.service.ts
 ```ts
 import axios from 'axios';
-import { CommonService } from '../services/common.service';
+import { CommonService } from './common.service';
 ```
 ```diff
 - constructor() {}
@@ -574,7 +574,8 @@ ng generate service services/search
 src/app/services/search.service.ts
 ```ts
 import axios from 'axios';
-import { CommonService } from '../services/common.service';
+import { CommonService } from './common.service';
+import { MembersService } from './members.service';
 ```
 ```diff
 - constructor() { }
@@ -597,10 +598,10 @@ searchRead(q) {
 ```
 
 ## Search Compenent Service inject
-src/app/search/search.component.ts
+src/app/components/contents/search/search.component.ts
 ```ts
-import { MembersService } from '../services/members.service';
-import { SearchService } from '../services/search.service';
+import { MembersService } from '../../../services/members.service';
+import { SearchService } from '../../../services/search.service';
 ```
 ```diff
 - constructor() { }
@@ -621,7 +622,7 @@ ngOnInit(): void {
 }
 ```
 
-src/app/search/search.component.html
+src/app/components/contents/search/search.component.html
 ```html
 <div>
   <h3>Search</h3>
@@ -656,7 +657,7 @@ src/app/search/search.component.html
 ```
 
 ## Search Component 쿼리스트링 변경과 새로고침 적용
-src/app/search/search.component.ts
+src/app/components/contents/search/search.component.ts
 ```ts
 import { ActivatedRoute, Router } from '@angular/router';
 ```
@@ -693,7 +694,7 @@ searchRead(q): void {
 }
 ```
 
-src/app/search/search.component.html
+src/app/components/contents/search/search.component.html
 ```diff
 - <form (submit)="searchService.searchRead(q)">
 + <form (submit)="searchRead(q)">
