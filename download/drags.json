@@ -1,0 +1,37 @@
+[
+  {
+    "name": "A-METHAPRED",
+    "UUID": "00000000-0000-0000-0000-000000000001",
+    "date": "6/2/2017",
+    "summary": "A-Methapred (methylprednisolone sodium succinate for injection, USP) sterile powder contains methylprednisolone sodium succinate as the active ingredient.",
+    "quantitySimplicity": 1
+  },
+  {
+    "name": "B12",
+    "UUID": "00000000-0000-0000-0000-000000000002",
+    "date": "12/8/2004",
+    "summary": "A Highly Potent Oral Antianemia Preparation",
+    "quantitySimplicity": 2
+  },
+  {
+    "name": "CINRYZE",
+    "UUID": "00000000-0000-0000-0000-000000000003",
+    "date": "8/21/2020",
+    "summary": "CINRYZE (C1 esterase inhibitor [human]) (Freeze-Dried powder for Reconstitution) is a sterile, stable",
+    "quantitySimplicity": 3
+  },
+  {
+    "name": "DHE 45",
+    "UUID": "00000000-0000-0000-0000-000000000004",
+    "date": "12/8/2004",
+    "summary": "D.H.E. 45 (dihydroergotamine) ® is ergotamine hydrogenated in the 9, 10 position as the mesylate salt. D.H.E. 45 (dihydroergotamine)",
+    "quantitySimplicity": 4
+  },
+  {
+    "name": "E-Z-HD",
+    "UUID": "00000000-0000-0000-0000-000000000005",
+    "date": "2/25/2016",
+    "summary": "E-Z-HD (barium sulfate) is a radiographic contrast agent that is supplied as a fine white powder for oral suspension (98%w/w barium sulfate) for oral administration.",
+    "quantitySimplicity": 5
+  }
+]
