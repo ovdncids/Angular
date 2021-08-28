@@ -275,8 +275,8 @@ ng generate service services/members
 src/app/services/members.service.ts
 ```ts
 export class MembersService {
-  members = [];
-  member = {
+  members: any = [];
+  member: any = {
     name: '',
     age: ''
   };
