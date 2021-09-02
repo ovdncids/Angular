@@ -534,11 +534,7 @@ membersUpdate(index, member) {
 - console.log('Done membersUpdate', this.members);
 ```
 ```ts
-const memberUpdate = {
-  index: index,
-  member: member,
-}
-axios.patch('http://localhost:3100/api/v1/members', memberUpdate).then((response) => {
+axios.patch('http://localhost:3100/api/v1/members/' + index, member).then((response) => {
   console.log('Done membersUpdate', response);
   this.membersRead();
 }).catch((error) => {
