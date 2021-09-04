@@ -582,9 +582,9 @@ searchRead(q) {
   const url = `http://localhost:3100/api/v1/search?q=${q}`;
   axios.get(url).then((response) => {
     console.log('Done searchRead', response);
-    membersStore.members = response.data.members;
+    this.membersService.members = response.data.members;
   }).catch((error) => {
-    axiosError(error);
+    this.commonService.axiosError(error);
   });
 }
 ```
