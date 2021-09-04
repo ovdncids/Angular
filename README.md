@@ -400,7 +400,7 @@ src/app/components/contents/members/members.component.html
 ### Update
 src/app/services/members.service.ts
 ```ts
-membersUpdate(index, member) {
+membersUpdate(index: number, member: any) {
   this.members[index] = member;
   console.log('Done membersUpdate', this.members);
 }
@@ -435,7 +435,7 @@ src/app/components/contents/members/members.component.html
 ## Delete
 src/app/services/members.service.ts
 ```ts
-membersDelete(index) {
+membersDelete(index: number) {
   this.members.splice(index, 1);
   console.log('Done membersDelete', this.members);
 }
@@ -473,7 +473,7 @@ ng generate service services/common
 src/app/services/common.service.js
 ```js
 export class CommonService {
-  axiosError(error) {
+  axiosError(error: any) {
     console.error(error.response || error.message || error);
   };
 ```
@@ -578,7 +578,7 @@ constructor(
   private membersService: MembersService
 ) {}
 
-searchRead(q) {
+searchRead(q: string) {
   const url = `http://localhost:3100/api/v1/search?q=${q}`;
   axios.get(url).then((response) => {
     console.log('Done searchRead', response);
@@ -675,9 +675,10 @@ constructor(
 ```diff
 ngOnInit(): void {
 - this.searchService.searchRead(this.q);
+}
 ```
 ```html
-searchRead(q): void {
+searchRead(q: string): void {
   this.router.navigate(['/search'], {
     queryParams: {
       q: q
