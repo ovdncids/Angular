@@ -7,13 +7,8 @@ src/app/services/members.service.ts
 // Member 타입 생성
 interface Member {
   name: string
-  age?: number
+  age: number | string
 }
-
-member: Member = {
-  name: '',
-  age: undefined
-};
 ```
 
 ## Mebers 타입 생성하기
