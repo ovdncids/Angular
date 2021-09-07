@@ -17,3 +17,13 @@ members: Array<Member> = [];
 // or
 members: Member[] = [];
 ```
+
+## Axios error 타입 가져오기
+src/app/services/common.service.ts
+```ts
+import { AxiosError } from 'axios'
+```
+```diff
+- axiosError(error: any) {
++ axiosError(error: AxiosError) {
+```
