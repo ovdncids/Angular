@@ -121,19 +121,19 @@ insertMemberAge($event: string): void {
 ## Optional chaining
 src/app/services/members.service.ts
 ```ts
-declare interface Oc {
-  f1?: Function
-  a1: any
+declare interface OptionalChaining {
+  func1?: Function
+  any1: any
 }
 
 export class MembersService {
-  oc: Oc = {
-    f1: function() {
-      console.log('f1');
+  optionalChaining: OptionalChaining = {
+    func1: function() {
+      console.log('func1');
     },
-    a1: {
-      f2: function() {
-        console.log('f2');
+    any1: {
+      func2: function() {
+        console.log('func2');
       }
     }
   }
@@ -142,10 +142,10 @@ export class MembersService {
 src/app/components/contents/members/members.component.ts
 ```diff
 ngOnInit(): void {
-+ this.membersService.oc.f1?.();
-+ this.membersService.oc.a1?.f2?.()
++ this.membersService.optionalChaining.func1?.();
++ this.membersService.optionalChaining.any1?.func2?.();
 }
 ```
-* ❔ `f1`을 `undefined`로 변경 하기
-* ❔ `f2`을 `undefined`로 변경 하기
-* ❔ `a1`을 `undefined`로 변경 하기
+* ❔ `func1`을 `undefined`로 변경 하기
+* ❔ `func2`을 `undefined`로 변경 하기
+* ❔ `any1`을 `undefined`로 변경 하기
