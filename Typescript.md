@@ -117,3 +117,35 @@ insertMemberAge($event: string): void {
 + this.membersService.member.age = $event === '' ? undefined : Number($event);
 }
 ```
+
+## Optional chaining
+src/app/services/members.service.ts
+```ts
+declare interface Oc {
+  f1?: Function
+  a1: any
+}
+
+export class MembersService {
+  oc: Oc = {
+    f1: function() {
+      console.log('f1');
+    },
+    a1: {
+      f2: function() {
+        console.log('f2');
+      }
+    }
+  }
+}
+```
+src/app/components/contents/members/members.component.ts
+```diff
+ngOnInit(): void {
++ this.membersService.oc.f1?.();
++ this.membersService.oc.a1?.f2?.()
+}
+```
+* ❔ `f1`을 `undefined`로 변경 하기
+* ❔ `f2`을 `undefined`로 변경 하기
+* ❔ `a1`을 `undefined`로 변경 하기
