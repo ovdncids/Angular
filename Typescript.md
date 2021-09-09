@@ -30,6 +30,16 @@ import { AxiosError } from 'axios'
 ```
 
 ## Member.age 타입 수정하기
+### Member.age 타입에 number와 ''만 받기
+src/app/services/members.service.ts
+```diff
+declare interface Member {
+  name: string
+- age: number | string
++ age: number | ''
+}
+```
+
 ### Member.age 타입에 number만 받기
 src/app/services/members.service.ts
 ```diff
@@ -55,9 +65,8 @@ ngOnInit(): void {
   this.membersService.membersRead();
 }
 ```
-* 하지만 input 박스에 문자가 입력 가능 하다.
+* ❕ 하지만 input 박스에서는 문자가 입력 가능 하다.
 
-### input 박스에서 number만 받기
 src/app/components/contents/members/members.component.html
 ```diff
 <input type="text" placeholder="Age"
@@ -75,4 +84,36 @@ insertMemberAge($event: string): void {
   this.membersService.member.age = Number($event);
 }
 ```
-* `void` 설명, `void` -> `string` 수정해 보기
+* `void` 설명, `void` -> `string`, `void` -> `undefined` 수정해 보기
+
+## Optional
+### input 박스에서 number와 undefined 받기
+src/app/services/members.service.ts
+```diff
+declare interface Member {
+  name: string
+- age: number
++ age?: number
+}
+
+member: Member = {
+  name: '',
+- age: 0
++ age: undefined
+};
+```
+
+src/app/components/contents/members/members.component.ts
+```diff
+ngOnInit(): void {
+  this.membersService.member.name = '';
+- this.membersService.member.age = 0;
++ this.membersService.member.age = undefined;
+  this.membersService.membersRead();
+}
+
+insertMemberAge($event: string): void {
+- this.membersService.member.age = Number($event);
++ this.membersService.member.age = $event === '' ? undefined : Number($event);
+}
+```
