@@ -7,7 +7,7 @@ src/app/services/members.service.ts
 ```ts
 // Member 타입 생성
 declare interface Member {
-  name: string
+  name: string,
   age: number | string
 }
 ```
@@ -34,7 +34,7 @@ import { AxiosError } from 'axios'
 src/app/services/members.service.ts
 ```diff
 declare interface Member {
-  name: string
+  name: string,
 - age: number | string
 + age: number | ''
 }
@@ -44,7 +44,7 @@ declare interface Member {
 src/app/services/members.service.ts
 ```diff
 declare interface Member {
-  name: string
+  name: string,
 - age: number | string
 + age: number
 }
@@ -91,7 +91,7 @@ insertMemberAge($event: string): void {
 src/app/services/members.service.ts
 ```diff
 declare interface Member {
-  name: string
+  name: string,
 - age: number
 + age?: number
 }
@@ -122,7 +122,7 @@ insertMemberAge($event: string): void {
 src/app/services/members.service.ts
 ```ts
 declare interface OptionalChaining {
-  func1?: Function
+  func1?: Function,
   any1: any
 }
 
