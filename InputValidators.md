@@ -15,14 +15,14 @@ src/app/services/members.service.ts
 import { FormControl, Validators } from '@angular/forms';
 
 declare interface MemberForm {
-  name?: FormControl
+  name?: FormControl,
   age: FormControl
 }
 
 export class MembersService {
   constructor(private commonService: CommonService) {
-    this.memberForm.age.valueChanges.subscribe(value => {
-      this.member.age = Number(value);
+    this.memberForm.age.valueChanges.subscribe(($event: string) => {
+      this.member.age = Number($event);
     });
   }
 
