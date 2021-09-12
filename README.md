@@ -288,6 +288,7 @@ export class MembersService {
     });
     console.log('Done membersCreate', this.members);
   }
+}
 ```
 
 ## Members Compenent Service inject
@@ -303,6 +304,7 @@ import { MembersService } from '../../../services/members.service';
 ngOnInit(): void {
   this.membersService.member.name = '';
   this.membersService.member.age = '';
+}
 ```
 
 src/app/components/contents/members/members.component.html
