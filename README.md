@@ -60,6 +60,9 @@ ng new angular-study
 ## Would you like to add Angular routing? Y
 ## Which stylesheet format would you like to use? SCSS
 
+cd angular-study
+code .
+
 # VSCode로 해당 디렉토리 열기
 ## build
 ng build --prod
