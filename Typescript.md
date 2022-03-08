@@ -151,9 +151,12 @@ ngOnInit(): void {
 * ❔ `any1`을 `undefined`로 변경 하기
 * ❔ `func1` 함수에 `return '리턴 func1';` 넣어서 확인해 보기
 
-## object[key] 형식으로 접근할때 오류 수정
+## object[key] 형식으로 접근할때 오류 수정 (TS:7031 암시적으로 'any' 형식이 있습니다)
 ```ts
 declare interface Member {
-  [propsName:string]: any;
+  [propName:string]: any;
 }
 ```
+<!--
+[propsName:string]: any;
+-->
