@@ -362,10 +362,10 @@ debugger
 ### Create
 src/app/services/members.service.ts
 ```ts
-membersCreate() {
+membersCreate(member) {
   this.members.push({
-    name: this.member.name,
-    age: this.member.age
+    name: member.name,
+    age: member.age
   });
   console.log('Done membersCreate', this.members);
 }
@@ -381,7 +381,7 @@ src/app/components/contents/members/members.component.ts
   [ngModel]="membersService.member.age"
   (ngModelChange)="membersService.member.age = $event"
 >
-<button (click)="membersService.membersCreate()">Create</button>
+<button (click)="membersService.membersCreate(membersService.member)">Create</button>
 ```
 
 ### Read
@@ -508,15 +508,15 @@ import { CommonService } from './common.service';
 + constructor(private commonService: CommonService) {}
 ```
 ```diff
-membersCreate() {
+membersCreate(member) {
 - this.members.push({
--   name: this.member.name,
--   age: this.member.age
+-   name: member.name,
+-   age: member.age
 - })
 - console.log('Done membersCreate', this.members);
 ```
 ```ts
-axios.post('http://localhost:3100/api/v1/members', this.member).then((response) => {
+axios.post('http://localhost:3100/api/v1/members', member).then((response) => {
   console.log('Done membersCreate', response);
   this.membersRead();
 }).catch((error) => {
