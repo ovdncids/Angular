@@ -286,18 +286,10 @@ export class MembersService {
     name: '',
     age: ''
   };
-
-  membersCreate() {
-    this.members.push({
-      name: this.member.name,
-      age: this.member.age
-    });
-    console.log('Done membersCreate', this.members);
-  }
 }
 ```
 
-## Members Compenent Service inject
+### Members Compenent Service inject
 src/app/components/contents/members/members.component.ts
 ```ts
 import { MembersService } from '../../../services/members.service';
@@ -308,6 +300,7 @@ import { MembersService } from '../../../services/members.service';
 ```
 ```ts
 ngOnInit(): void {
+  console.log(this.membersService.member);
   this.membersService.member.name = '';
   this.membersService.member.age = '';
 }
@@ -343,15 +336,9 @@ src/app/components/contents/members/members.component.html
   <hr class="d-block" />
   <div>
     <h4>Create</h4>
-    <input type="text" placeholder="Name"
-      [ngModel]="membersService.member.name"
-      (ngModelChange)="membersService.member.name = $event"
-    >
-    <input type="text" placeholder="Age"
-      [ngModel]="membersService.member.age"
-      (ngModelChange)="membersService.member.age = $event"
-    >
-    <button (click)="membersService.membersCreate()">Create</button>
+    <input type="text" placeholder="Name" />
+    <input type="text" placeholder="Age" />
+    <button>Create</button>
   </div>
 </div>
 ```
@@ -372,6 +359,31 @@ debugger
 ```
 
 ## Members Service CRUD
+### Create
+src/app/services/members.service.ts
+```ts
+membersCreate() {
+  this.members.push({
+    name: this.member.name,
+    age: this.member.age
+  });
+  console.log('Done membersCreate', this.members);
+}
+```
+
+src/app/components/contents/members/members.component.ts
+```ts
+<input type="text" placeholder="Name"
+  [ngModel]="membersService.member.name"
+  (ngModelChange)="membersService.member.name = $event"
+>
+<input type="text" placeholder="Age"
+  [ngModel]="membersService.member.age"
+  (ngModelChange)="membersService.member.age = $event"
+>
+<button (click)="membersService.membersCreate()">Create</button>
+```
+
 ### Read
 src/app/services/members.service.ts
 ```ts
