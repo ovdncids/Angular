@@ -627,8 +627,6 @@ constructor(
   public searchService: SearchService
 ) { }
 
-q = '';
-
 ngOnInit(): void {
   this.searchService.searchRead(this.q);
 }
@@ -640,11 +638,8 @@ src/app/components/contents/search/search.component.html
   <h3>Search</h3>
   <hr class="d-block" />
   <div>
-    <form (submit)="searchService.searchRead(q)">
-      <input type="text" placeholder="Search" name="q"
-        [ngModel]="q"
-        (ngModelChange)="q = $event"
-      />
+    <form>
+      <input type="text" placeholder="Search" />
       <button>Search</button>
     </form>
   </div>
@@ -668,13 +663,70 @@ src/app/components/contents/search/search.component.html
 </div>
 ```
 
+## Search Component에서만 사용 가능한 state값 적용
+src/app/components/contents/search/search.component.ts
+```ts
+q = '';
+```
+
+src/app/components/contents/search/search.component.html
+```diff
+- <form>
+-   <input type="text" placeholder="Search" />
+-   <button>Search</button>
+- </form>
+```
+```html
+<form (submit)="searchService.searchRead(q)">
+  <input type="text" placeholder="Search" name="q"
+    [ngModel]="q"
+    (ngModelChange)="q = $event"
+  />
+  <button>Search</button>
+</form>
+```
+
 ## Search Component 쿼리스트링 변경과 새로고침 적용
 src/app/components/contents/search/search.component.ts
 ```ts
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+```
+```diff
+constructor(
++ private router: Router,
+  public membersService: MembersService,
+  public searchService: SearchService
+) { }
+```
+```diff
+ngOnInit(): void {
+- this.searchService.searchRead(this.q);
+}
+```
+```ts
+searchRead(q: string): void {
+  this.router.navigate(['/search'], {
+    queryParams: {
+      q: q
+    }
+  });
+}
+```
+
+src/app/components/contents/search/search.component.html
+```diff
+- <form (submit)="searchService.searchRead(q)">
++ <form (submit)="searchRead(q)">
+```
+* `검색`, `뒤로가기` 해보기
+
+```diff
+- import { Router } from '@angular/router';
++ import { ActivatedRoute, Router } from '@angular/router';
 ```
 ```diff
 - constructor(
+-   private router: Router,
 -   public membersService: MembersService,
 -   public searchService: SearchService
 - ) { }
@@ -691,26 +743,6 @@ constructor(
     this.searchService.searchRead(this.q);
   });
 }
-```
-```diff
-ngOnInit(): void {
-- this.searchService.searchRead(this.q);
-}
-```
-```html
-searchRead(q: string): void {
-  this.router.navigate(['/search'], {
-    queryParams: {
-      q: q
-    }
-  });
-}
-```
-
-src/app/components/contents/search/search.component.html
-```diff
-- <form (submit)="searchService.searchRead(q)">
-+ <form (submit)="searchRead(q)">
 ```
 
 ## Proxy 설정
