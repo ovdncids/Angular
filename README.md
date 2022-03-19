@@ -628,7 +628,7 @@ constructor(
 ) { }
 
 ngOnInit(): void {
-  this.searchService.searchRead(this.q);
+  this.searchService.searchRead('');
 }
 ```
 
@@ -698,11 +698,6 @@ constructor(
   public searchService: SearchService
 ) { }
 ```
-```diff
-ngOnInit(): void {
-- this.searchService.searchRead(this.q);
-}
-```
 ```ts
 searchRead(q: string): void {
   this.router.navigate(['/search'], {
@@ -742,6 +737,11 @@ constructor(
     this.q = queryParams.q || ''
     this.searchService.searchRead(this.q);
   });
+}
+```
+```diff
+ngOnInit(): void {
+- this.searchService.searchRead('');
 }
 ```
 
