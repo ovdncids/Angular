@@ -151,7 +151,7 @@ ngOnInit(): void {
 * ❔ `any1`을 `undefined`로 변경 하기
 * ❔ `func1` 함수에 `return '리턴 func1';` 넣어서 확인해 보기
 
-## Axios, Fetch with Saga
+## Axios, Fetch with Redux-Saga
 ```ts
 # Axios
 import axios, { AxiosResponse } from 'axios';
