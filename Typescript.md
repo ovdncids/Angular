@@ -151,6 +151,30 @@ ngOnInit(): void {
 * ❔ `any1`을 `undefined`로 변경 하기
 * ❔ `func1` 함수에 `return '리턴 func1';` 넣어서 확인해 보기
 
+## Axios, Fetch with Saga
+```ts
+# Axios
+import axios, { AxiosResponse } from 'axios';
+
+const response: AxiosResponse<{result: string}> = yield call(() =>
+  axios.get('http://localshot:3100/api/v1/members')
+);
+
+# Fetch
+import { ServerResponse } from 'http';
+
+declare interface FetchServerResponse extends ServerResponse {
+  json: Function;
+}
+
+const response: FetchServerResponse = yield call(
+  () => fetch('http://localshot:3100/api/v1/members', {
+    method: 'GET'
+  })
+);
+const responseJson: string = yield call(() => response.json());
+```
+
 ## TSLint 오류들
 ### object[key] 형식으로 접근할때 (TS:7031 암시적으로 'any' 형식이 있습니다)
 ```ts
