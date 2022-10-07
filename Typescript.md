@@ -19,18 +19,6 @@ members: Array<Member> = [];
 members: Member[] = [];
 ```
 
-### Axios error 타입 가져오기
-src/app/services/common.service.ts
-```ts
-import { AxiosError } from 'axios';
-// or
-import type { AxiosError } from 'axios';
-```
-```diff
-- axiosError(error: any) {
-+ axiosError(error: AxiosError) {
-```
-
 ## Member.age 타입 수정하기
 ### Member.age 타입에 number와 ''만 받기
 src/app/services/members.service.ts
@@ -152,6 +140,30 @@ ngOnInit(): void {
 * ❔ `func2`을 `undefined`로 변경 하기
 * ❔ `any1`을 `undefined`로 변경 하기
 * ❔ `func1` 함수에 `return '리턴 func1';` 넣어서 확인해 보기
+
+### Axios error 타입 가져오기
+src/app/services/common.service.ts
+```ts
+import { AxiosError } from 'axios';
+// or
+import type { AxiosError } from 'axios';
+```
+```diff
+- axiosError(error: any) {
++ axiosError(error: AxiosError) {
+```
+
+## Axios error with Redux Toolkit Thunk
+```ts
+axiosErrorHandler(error, thunkAPI);
+
+export const axiosErrorHandler = (error: unknown, thunkAPI: { dispatch: ThunkDispath<unknown, unknown, AnyAction> }) => {
+  if (axios.isAxiosError(error)) {
+    const axiosError: AxiosError = error;
+    console.log(axiosError, thunkAPI.dispatch);
+  }
+}
+```
 
 ## Axios, Fetch with Redux-Saga
 ```ts
