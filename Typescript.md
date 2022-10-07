@@ -162,6 +162,7 @@ export const axiosErrorHandler = (error: unknown, thunkAPI: { dispatch: ThunkDis
     const axiosError: AxiosError = error;
     console.log(axiosError, thunkAPI.dispatch);
   }
+  console.error(error);
 }
 ```
 
