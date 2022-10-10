@@ -190,6 +190,39 @@ const response: FetchServerResponse = yield call(
 const responseJson: string = yield call(() => response.json());
 ```
 
+## Redux initialState
+```ts
+import { createSlice } from '@reduxjs/toolkit';
+
+export interface Member {
+  name: string,
+  age: string | number
+};
+
+interface MembersState {
+  members: Member[],
+  member: Member
+};
+
+export const membersSlice = createSlice({
+  name: '$members',
+  initialState: {
+    members: [],
+    member: {
+      name: '',
+      age: ''
+    }
+  } as MembersState,
+  reducers: {
+  }
+});
+
+export const membersState = (state: { $members: MembersState }) => state.$members;
+export const membersActions = membersSlice.actions;
+
+export default membersSlice.reducer;
+```
+
 ## TSLint 오류들
 ### object[key] 형식으로 접근할때 (TS:7031 암시적으로 'any' 형식이 있습니다)
 ```ts
