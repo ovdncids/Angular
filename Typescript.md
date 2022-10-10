@@ -157,7 +157,7 @@ import type { AxiosError } from 'axios';
 ```ts
 axiosErrorHandler(error, thunkAPI);
 
-export const axiosErrorHandler = (error: unknown, thunkAPI: { dispatch: ThunkDispath<unknown, unknown, AnyAction> }) => {
+export const axiosErrorHandler = (error: unknown, thunkAPI: { dispatch: ThunkDispatch<unknown, unknown, AnyAction> }) => {
   if (axios.isAxiosError(error)) {
     const axiosError: AxiosError = error;
     console.log(axiosError, thunkAPI.dispatch);
