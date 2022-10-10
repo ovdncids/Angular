@@ -171,7 +171,7 @@ export const axiosErrorHandler = (error: unknown, thunkAPI: { dispatch: ThunkDis
 # Axios
 import axios, { AxiosResponse } from 'axios';
 
-const response: AxiosResponse<{result: string}> = yield call(() =>
+const response: AxiosResponse<{ result: string }> = yield call(() =>
   axios.get('http://localshot:3100/api/v1/members')
 );
 
