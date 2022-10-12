@@ -227,9 +227,10 @@ export default membersSlice.reducer;
 ### object[key] 형식으로 접근할때 (TS:7031 암시적으로 'any' 형식이 있습니다)
 ```ts
 declare interface Member {
-  [propName:string]: any;
+  [key: string]: number;
 }
 ```
 <!--
-[propsName:string]: any;
+[propName: string]: any;
+[propsName: string]: any;
 -->
