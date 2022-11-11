@@ -223,6 +223,12 @@ export const membersActions = membersSlice.actions;
 export default membersSlice.reducer;
 ```
 
+## 선언되지 않은 속성 읽기
+```ts
+const a = { a1: 123 };
+const { a2 } = a as unknown as { a2: number };
+```
+
 ## TSLint 오류들
 ### object[key] 형식으로 접근할때 (TS:7031 암시적으로 'any' 형식이 있습니다)
 ```ts
@@ -234,9 +240,3 @@ declare interface Member {
 [propName: string]: any;
 [propsName: string]: any;
 -->
-
-## 선언되지 않은 속성 읽기
-```ts
-const a = { a1: 123 };
-const { a2 } = a as unknown as { a2: number };
-```
