@@ -234,3 +234,9 @@ declare interface Member {
 [propName: string]: any;
 [propsName: string]: any;
 -->
+
+## 선언되지 않은 속성 읽기
+```ts
+const a = { a1: 123 };
+const { a2 } = a as unknown as { a2: number };
+```
