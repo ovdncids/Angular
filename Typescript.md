@@ -190,6 +190,22 @@ const response: FetchServerResponse = yield call(
 const responseJson: string = yield call(() => response.json());
 ```
 
+## Axios 공용 오류 처리
+```ts
+const api = axios.create();
+api.interceptors.response.use(
+  (response: AxiosResponse<any, any>) => {
+    return response;
+  }, (error) => {
+    // 오류 처리 로직
+    if (error.code === 'ERR_NETWORK' && error.request.status === 0) {
+      window.location.reload();
+    }
+    throw error;
+  }
+);
+```
+
 ## Redux initialState
 ```ts
 import { createSlice } from '@reduxjs/toolkit';
