@@ -204,7 +204,9 @@ api.interceptors.response.use(
     throw error;
   }
 );
+const response = api.get('');
 ```
+* ❕ `throw error`가 없으면 `api.get('')`에서 에러가 발생해도 `response`는 `undefined`를 받는다.
 
 ## Redux initialState
 ```ts
