@@ -1,5 +1,5 @@
 # Angular
-* [데모](https://ovdncids.github.io/angular-curriculum/demo)
+* [데모](https://ovdncids-curriculums.web.app/members)
 
 ## Node.js
 https://nodejs.org
