@@ -289,7 +289,7 @@ export class MembersService {
 }
 ```
 
-### Members Compenent Service inject
+### Members Component Service inject
 src/app/components/contents/members/members.component.ts
 ```ts
 import { MembersService } from '../../../services/members.service';
@@ -609,7 +609,7 @@ searchRead(q: string) {
 }
 ```
 
-## Search Compenent Service inject
+## Search Component Service inject
 src/app/components/contents/search/search.component.ts
 ```ts
 import { MembersService } from '../../../services/members.service';
