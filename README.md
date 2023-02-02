@@ -694,7 +694,7 @@ src/app/components/contents/search/search.component.html
 </form>
 ```
 
-## Search Component 쿼리스트링 변경과 새로고침 적용
+## Search Component 쿼리스트링 변경
 src/app/components/contents/search/search.component.ts
 ```ts
 import { Router } from '@angular/router';
@@ -723,6 +723,7 @@ src/app/components/contents/search/search.component.html
 ```
 * `검색`, `뒤로가기` 해보기
 
+## Search Component 새로고침 적용
 ```diff
 - import { Router } from '@angular/router';
 + import { ActivatedRoute, Router } from '@angular/router';
