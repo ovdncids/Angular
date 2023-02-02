@@ -231,7 +231,7 @@ export class FooterComponent implements OnInit {
 ```
 **props는 부모 Component에서 자식 Component로 값을 전달 한다**
 
-## Angular router
+## Angular Router
 ```sh
 ng generate component components/contents/members
 ng generate component components/contents/search
@@ -279,11 +279,17 @@ ng generate service services/members
 ```
 src/app/services/members.service.ts
 ```ts
+export interface Member {
+  name: string
+  age: string | number
+}
+```
+```ts
 export class MembersService {
   constructor() { }
 
-  members: any = [];
-  member: any = {
+  members: Member[] = [];
+  member: Member = {
     name: '',
     age: ''
   };
@@ -363,7 +369,7 @@ debugger
 ### Create
 src/app/services/members.service.ts
 ```ts
-membersCreate(member) {
+membersCreate(member: Member) {
   this.members.push({
     name: member.name,
     age: member.age
@@ -418,10 +424,27 @@ src/app/components/contents/members/members.component.html
   <td>{{member.age}}</td>
 ```
 
+## Delete
+src/app/services/members.service.ts
+```ts
+membersDelete(index: number) {
+  this.members.splice(index, 1);
+  console.log('Done membersDelete', this.members);
+}
+```
+
+src/app/components/contents/members/members.component.html
+```diff
+- <button>Delete</button>
+```
+```html
+<button (click)="membersService.membersDelete(index)">Delete</button>
+```
+
 ### Update
 src/app/services/members.service.ts
 ```ts
-membersUpdate(index: number, member: any) {
+membersUpdate(index: number, member: Member) {
   this.members[index] = member;
   console.log('Done membersUpdate', this.members);
 }
@@ -451,23 +474,6 @@ src/app/components/contents/members/members.component.html
 ```
 ```html
 <button (click)="membersService.membersUpdate(index, member)">Update</button>
-```
-
-## Delete
-src/app/services/members.service.ts
-```ts
-membersDelete(index: number) {
-  this.members.splice(index, 1);
-  console.log('Done membersDelete', this.members);
-}
-```
-
-src/app/components/contents/members/members.component.html
-```diff
-- <button>Delete</button>
-```
-```html
-<button (click)="membersService.membersDelete(index)">Delete</button>
 ```
 
 ## Backend Server
@@ -501,8 +507,8 @@ export class CommonService {
 
 src/app/services/members.service.ts
 ```ts
-import axios from 'axios';
 import { CommonService } from './common.service';
+import axios from 'axios';
 ```
 ```diff
 - constructor() {}
@@ -547,22 +553,6 @@ axios.get('http://localhost:3100/api/v1/members').then((response) => {
 });
 ```
 
-### Update
-src/app/services/members.service.ts
-```diff
-membersUpdate(index, member) {
-- this.members[index] = member;
-- console.log('Done membersUpdate', this.members);
-```
-```ts
-axios.patch('http://localhost:3100/api/v1/members/' + index, member).then((response) => {
-  console.log('Done membersUpdate', response);
-  this.membersRead();
-}).catch((error) => {
-  this.commonService.axiosError(error);
-});
-```
-
 ### Delete
 src/app/services/members.service.ts
 ```diff
@@ -579,6 +569,22 @@ axios.delete('http://localhost:3100/api/v1/members/' + index).then((response) =>
 });
 ```
 
+### Update
+src/app/services/members.service.ts
+```diff
+membersUpdate(index, member) {
+- this.members[index] = member;
+- console.log('Done membersUpdate', this.members);
+```
+```ts
+axios.patch('http://localhost:3100/api/v1/members/' + index, member).then((response) => {
+  console.log('Done membersUpdate', response);
+  this.membersRead();
+}).catch((error) => {
+  this.commonService.axiosError(error);
+});
+```
+
 ## Search Service 만들기
 ```sh
 ng generate service services/search
@@ -586,9 +592,9 @@ ng generate service services/search
 
 src/app/services/search.service.ts
 ```ts
-import axios from 'axios';
 import { CommonService } from './common.service';
 import { MembersService } from './members.service';
+import axios from 'axios';
 ```
 ```diff
 - constructor() { }
@@ -597,10 +603,10 @@ import { MembersService } from './members.service';
 constructor(
   private commonService: CommonService,
   private membersService: MembersService
-) {}
+) { }
 
 searchRead(q: string) {
-  const url = `http://localhost:3100/api/v1/search?q=${q}`;
+  const url = 'http://localhost:3100/api/v1/search?q=' + q;
   axios.get(url).then((response) => {
     console.log('Done searchRead', response);
     this.membersService.members = response.data.members;
@@ -667,7 +673,8 @@ src/app/components/contents/search/search.component.html
 ## Search Component에서만 사용 가능한 state값 적용
 src/app/components/contents/search/search.component.ts
 ```ts
-q = '';
+export class SearchComponent implements OnInit {
+  q = '';
 ```
 
 src/app/components/contents/search/search.component.html
@@ -694,9 +701,9 @@ import { Router } from '@angular/router';
 ```
 ```diff
 constructor(
-+ private router: Router,
   public membersService: MembersService,
-  public searchService: SearchService
+  public searchService: SearchService,
++ private router: Router
 ) { }
 ```
 ```ts
@@ -722,20 +729,20 @@ src/app/components/contents/search/search.component.html
 ```
 ```diff
 - constructor(
--   private router: Router,
 -   public membersService: MembersService,
--   public searchService: SearchService
+-   public searchService: SearchService,
+-   private router: Router
 - ) { }
 ```
 ```ts
 constructor(
-  private route: ActivatedRoute,
-  private router: Router,
   public membersService: MembersService,
-  public searchService: SearchService
+  public searchService: SearchService,
+  private route: ActivatedRoute,
+  private router: Router
 ) {
   this.route.queryParams.subscribe(queryParams => {
-    this.q = queryParams.q || ''
+    this.q = queryParams['q'] || ''
     this.searchService.searchRead(this.q);
   });
 }
