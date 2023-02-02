@@ -57,7 +57,8 @@ npm install -g @angular/cli
 
 # Angular 프로젝트 생성
 ng new angular-study
-## Do you want to enforce stricter type checking and stricter bundle budgets in the workspace? N
+## Would you like to enable autocompletion? This will set up your terminal so pressing TAB while typing Angular CLI commands will show possible options and autocomplete arguments. (Enabling autocompletion will modify configuration files in your home directory.) N
+### 자동 완성을 .zshrc 설정 파일에 넣는다. N
 ## Would you like to add Angular routing? Y
 ## Which stylesheet format would you like to use? SCSS
 
