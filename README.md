@@ -1,5 +1,5 @@
 # Angular
-* [데모](https://ovdncids-curriculums.web.app/members)
+[데모](https://ovdncids-curriculums.web.app/members)
 
 ## Node.js
 https://nodejs.org
@@ -680,7 +680,7 @@ src/app/components/contents/search/search.component.html
 - <form (submit)="searchService.searchRead(q)">
 + <form (submit)="searchRead(q)">
 ```
-* `검색`, `뒤로가기` 해보기
+`검색`, `뒤로가기` 해보기
 
 ## Search Component 새로고침 적용
 ```diff
