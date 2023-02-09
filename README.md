@@ -55,14 +55,14 @@ src/app/app.component.html
   <div class="container">
     <nav class="nav">
       <ul>
-        <li><h2>Members</h2></li>
+        <li><h2>Users</h2></li>
         <li><h2>Search</h2></li>
       </ul>
     </nav>
     <hr />
     <section class="contents">
       <div>
-        <h3>Members</h3>
+        <h3>Users</h3>
         <p>Contents</p>
       </div>
     </section>
@@ -153,7 +153,7 @@ src/app/app.component.html
 
 - <nav class="nav">
 -   <ul>
--     <li><h2>Members</h2></li>
+-     <li><h2>Users</h2></li>
 -     <li><h2>Search</h2></li>
 -   </ul>
 - </nav>
@@ -192,7 +192,7 @@ export class FooterComponent implements OnInit {
 
 ## Angular Router
 ```sh
-ng generate component components/contents/members
+ng generate component components/contents/users
 ng generate component components/contents/search
 ```
 
@@ -200,7 +200,7 @@ src/app/app.component.html
 ```diff
   <section class="contents">
 -   <div>
--     <h3>Members</h3>
+-     <h3>Users</h3>
 -     <p>Contents</p>
 -   </div>
 +   <router-outlet></router-outlet>
@@ -208,7 +208,7 @@ src/app/app.component.html
 
 src/app/app-routing.module.ts
 ```ts
-import { MembersComponent } from './components/contents/members/members.component';
+import { UsersComponent } from './components/contents/users/users.component';
 import { SearchComponent } from './components/contents/search/search.component';
 ```
 ```diff
@@ -216,9 +216,9 @@ import { SearchComponent } from './components/contents/search/search.component';
 ```
 ```ts
 const routes: Routes = [
-  { path: 'members', component: MembersComponent },
+  { path: 'users', component: UsersComponent },
   { path: 'search', component: SearchComponent },
-  { path: '', redirectTo: '/members', pathMatch: 'full' }
+  { path: '', redirectTo: '/users', pathMatch: 'full' }
 ];
 ```
 
@@ -226,56 +226,56 @@ const routes: Routes = [
 
 src/app/components/nav/nav.component.html
 ```html
-<li><h2><a routerLink="/members" routerLinkActive="active">Members</a></h2></li>
+<li><h2><a routerLink="/users" routerLinkActive="active">Users</a></h2></li>
 <li><h2><a routerLink="/search" routerLinkActive="active">Search</a></h2></li>
 ```
 
 **여기 까지가 Markup 개발자 분들이 할일 입니다.**
 
-## Members Service 만들기
+## Users Service 만들기
 ```sh
-ng generate service services/members
+ng generate service services/users
 ```
-src/app/services/members.service.ts
+src/app/services/users.service.ts
 ```ts
-export interface Member {
+export interface User {
   name: string
   age: string | number
 }
 ```
 ```ts
-export class MembersService {
+export class UsersService {
   constructor() { }
 
-  members: Member[] = [];
-  member: Member = {
+  users: User[] = [];
+  user: User = {
     name: '',
     age: ''
   };
 }
 ```
 
-### Members Component Service inject
-src/app/components/contents/members/members.component.ts
+### Users Component Service inject
+src/app/components/contents/users/users.component.ts
 ```ts
-import { MembersService } from '../../../services/members.service';
+import { UsersService } from '../../../services/users.service';
 ```
 ```diff
 - constructor() { }
-+ constructor(public membersService: MembersService) { }
++ constructor(public usersService: UsersService) { }
 ```
 ```ts
 ngOnInit(): void {
-  console.log(this.membersService.member);
-  this.membersService.member.name = '';
-  this.membersService.member.age = '';
+  console.log(this.usersService.user);
+  this.usersService.user.name = '';
+  this.usersService.user.age = '';
 }
 ```
 
-src/app/components/contents/members/members.component.html
+src/app/components/contents/users/users.component.html
 ```html
 <div>
-  <h3>Members</h3>
+  <h3>Users</h3>
   <hr class="d-block" />
   <div>
     <h4>Read</h4>
@@ -324,107 +324,107 @@ import { FormsModule } from '@angular/forms';
 debugger
 ```
 
-## Members Service CRUD
+## Users Service CRUD
 ### Create
-src/app/services/members.service.ts
+src/app/services/users.service.ts
 ```ts
-membersCreate(member: Member) {
-  this.members.push({
-    name: member.name,
-    age: member.age
+usersCreate(user: User) {
+  this.users.push({
+    name: user.name,
+    age: user.age
   });
-  console.log('Done membersCreate', this.members);
+  console.log('Done usersCreate', this.users);
 }
 ```
 
-src/app/components/contents/members/members.component.ts
+src/app/components/contents/users/users.component.ts
 ```ts
 <input type="text" placeholder="Name"
-  [ngModel]="membersService.member.name"
-  (ngModelChange)="membersService.member.name = $event"
+  [ngModel]="usersService.user.name"
+  (ngModelChange)="usersService.user.name = $event"
 >
 <input type="text" placeholder="Age"
-  [ngModel]="membersService.member.age"
-  (ngModelChange)="membersService.member.age = $event"
+  [ngModel]="usersService.user.age"
+  (ngModelChange)="usersService.user.age = $event"
 >
-<button (click)="membersService.membersCreate(membersService.member)">Create</button>
+<button (click)="usersService.usersCreate(usersService.user)">Create</button>
 ```
 
 ### Read
-src/app/services/members.service.ts
+src/app/services/users.service.ts
 ```ts
-membersRead() {
-  this.members = [{
+usersRead() {
+  this.users = [{
     name: '홍길동',
     age: 20
   }, {
     name: '춘향이',
     age: 16
   }];
-  console.log('Done membersRead', this.members);
+  console.log('Done usersRead', this.users);
 }
 ```
 
-src/app/components/contents/members/members.component.ts
+src/app/components/contents/users/users.component.ts
 ```ts
 ngOnInit(): void {
-  this.membersService.membersRead();
+  this.usersService.usersRead();
 ```
 
-src/app/components/contents/members/members.component.html
+src/app/components/contents/users/users.component.html
 ```diff
 - <tr>
 -   <td>홍길동</td>
 -   <td>20</td>
 ```
 ```html
-<tr *ngFor="let member of membersService.members; let index=index">
-  <td>{{member.name}}</td>
-  <td>{{member.age}}</td>
+<tr *ngFor="let user of usersService.users; let index=index">
+  <td>{{user.name}}</td>
+  <td>{{user.age}}</td>
 ```
 
 ## Delete
-src/app/services/members.service.ts
+src/app/services/users.service.ts
 ```ts
-membersDelete(index: number) {
-  this.members.splice(index, 1);
-  console.log('Done membersDelete', this.members);
+usersDelete(index: number) {
+  this.users.splice(index, 1);
+  console.log('Done usersDelete', this.users);
 }
 ```
 
-src/app/components/contents/members/members.component.html
+src/app/components/contents/users/users.component.html
 ```diff
 - <button>Delete</button>
 ```
 ```html
-<button (click)="membersService.membersDelete(index)">Delete</button>
+<button (click)="usersService.usersDelete(index)">Delete</button>
 ```
 
 ### Update
-src/app/services/members.service.ts
+src/app/services/users.service.ts
 ```ts
-membersUpdate(index: number, member: Member) {
-  this.members[index] = member;
-  console.log('Done membersUpdate', this.members);
+usersUpdate(index: number, user: User) {
+  this.users[index] = user;
+  console.log('Done usersUpdate', this.users);
 }
 ```
 
-src/app/components/contents/members/members.component.html
+src/app/components/contents/users/users.component.html
 ```diff
-- <td>{member.name}</td>
-- <td>{member.age}</td>
+- <td>{user.name}</td>
+- <td>{user.age}</td>
 ```
 ```html
 <td>
   <input type="text" placeholder="Name"
-    [ngModel]="member.name"
-    (ngModelChange)="member.name = $event"
+    [ngModel]="user.name"
+    (ngModelChange)="user.name = $event"
   >
 </td>
 <td>
   <input type="text" placeholder="Age"
-    [ngModel]="member.age"
-    (ngModelChange)="member.age = $event"
+    [ngModel]="user.age"
+    (ngModelChange)="user.age = $event"
   >
 </td>
 ```
@@ -432,7 +432,7 @@ src/app/components/contents/members/members.component.html
 - <button>Update</button>
 ```
 ```html
-<button (click)="membersService.membersUpdate(index, member)">Update</button>
+<button (click)="usersService.usersUpdate(index, user)">Update</button>
 ```
 
 ## Backend Server
@@ -464,7 +464,7 @@ export class CommonService {
   };
 ```
 
-src/app/services/members.service.ts
+src/app/services/users.service.ts
 ```ts
 import { CommonService } from './common.service';
 import axios from 'axios';
@@ -474,71 +474,71 @@ import axios from 'axios';
 + constructor(private commonService: CommonService) {}
 ```
 ```diff
-membersCreate(member) {
-- this.members.push({
--   name: member.name,
--   age: member.age
+usersCreate(user) {
+- this.users.push({
+-   name: user.name,
+-   age: user.age
 - })
-- console.log('Done membersCreate', this.members);
+- console.log('Done usersCreate', this.users);
 ```
 ```ts
-axios.post('http://localhost:3100/api/v1/members', member).then((response) => {
-  console.log('Done membersCreate', response);
-  this.membersRead();
+axios.post('http://localhost:3100/api/v1/users', user).then((response) => {
+  console.log('Done usersCreate', response);
+  this.usersRead();
 }).catch((error) => {
   this.commonService.axiosError(error);
 });
 ```
 
 ### Read
-src/app/services/members.service.ts
+src/app/services/users.service.ts
 ```diff
-membersRead() {
-- this.members = [{
+usersRead() {
+- this.users = [{
 -   name: '홍길동',
 -   age: 20
 - }, {
 -   name: '춘향이',
 -   age: 16
 - }];
-- console.log('Done membersRead', this.members);
+- console.log('Done usersRead', this.users);
 ```
 ```ts
-axios.get('http://localhost:3100/api/v1/members').then((response) => {
-  console.log('Done membersRead', response);
-  this.members = response.data.members;
+axios.get('http://localhost:3100/api/v1/users').then((response) => {
+  console.log('Done usersRead', response);
+  this.users = response.data.users;
 }).catch((error) => {
   this.commonService.axiosError(error);
 });
 ```
 
 ### Delete
-src/app/services/members.service.ts
+src/app/services/users.service.ts
 ```diff
-membersDelete(index) {
-- this.members.splice(index, 1);
-- console.log('Done membersDelete', this.members);
+usersDelete(index) {
+- this.users.splice(index, 1);
+- console.log('Done usersDelete', this.users);
 ```
 ```ts
-axios.delete('http://localhost:3100/api/v1/members/' + index).then((response) => {
-  console.log('Done membersDelete', response);
-  this.membersRead();
+axios.delete('http://localhost:3100/api/v1/users/' + index).then((response) => {
+  console.log('Done usersDelete', response);
+  this.usersRead();
 }).catch((error) => {
   this.commonService.axiosError(error);
 });
 ```
 
 ### Update
-src/app/services/members.service.ts
+src/app/services/users.service.ts
 ```diff
-membersUpdate(index, member) {
-- this.members[index] = member;
-- console.log('Done membersUpdate', this.members);
+usersUpdate(index, user) {
+- this.users[index] = user;
+- console.log('Done usersUpdate', this.users);
 ```
 ```ts
-axios.patch('http://localhost:3100/api/v1/members/' + index, member).then((response) => {
-  console.log('Done membersUpdate', response);
-  this.membersRead();
+axios.patch('http://localhost:3100/api/v1/users/' + index, user).then((response) => {
+  console.log('Done usersUpdate', response);
+  this.usersRead();
 }).catch((error) => {
   this.commonService.axiosError(error);
 });
@@ -552,7 +552,7 @@ ng generate service services/search
 src/app/services/search.service.ts
 ```ts
 import { CommonService } from './common.service';
-import { MembersService } from './members.service';
+import { UsersService } from './users.service';
 import axios from 'axios';
 ```
 ```diff
@@ -561,14 +561,14 @@ import axios from 'axios';
 ```ts
 constructor(
   private commonService: CommonService,
-  private membersService: MembersService
+  private usersService: UsersService
 ) { }
 
 searchRead(q: string) {
   const url = 'http://localhost:3100/api/v1/search?q=' + q;
   axios.get(url).then((response) => {
     console.log('Done searchRead', response);
-    this.membersService.members = response.data.members;
+    this.usersService.users = response.data.users;
   }).catch((error) => {
     this.commonService.axiosError(error);
   });
@@ -578,7 +578,7 @@ searchRead(q: string) {
 ## Search Component Service inject
 src/app/components/contents/search/search.component.ts
 ```ts
-import { MembersService } from '../../../services/members.service';
+import { UsersService } from '../../../services/users.service';
 import { SearchService } from '../../../services/search.service';
 ```
 ```diff
@@ -589,7 +589,7 @@ import { SearchService } from '../../../services/search.service';
 ```
 ```ts
 constructor(
-  public membersService: MembersService,
+  public usersService: UsersService,
   public searchService: SearchService
 ) { }
 
@@ -619,9 +619,9 @@ src/app/components/contents/search/search.component.html
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let member of membersService.members; let index=index">
-          <td>{{member.name}}</td>
-          <td>{{member.age}}</td>
+        <tr *ngFor="let user of usersService.users; let index=index">
+          <td>{{user.name}}</td>
+          <td>{{user.age}}</td>
         </tr>
       </tbody>
     </table>
@@ -660,7 +660,7 @@ import { Router } from '@angular/router';
 ```
 ```diff
 constructor(
-  public membersService: MembersService,
+  public usersService: UsersService,
   public searchService: SearchService,
 + private router: Router
 ) { }
@@ -689,14 +689,14 @@ src/app/components/contents/search/search.component.html
 ```
 ```diff
 - constructor(
--   public membersService: MembersService,
+-   public usersService: UsersService,
 -   public searchService: SearchService,
 -   private router: Router
 - ) { }
 ```
 ```ts
 constructor(
-  public membersService: MembersService,
+  public usersService: UsersService,
   public searchService: SearchService,
   private route: ActivatedRoute,
   private router: Router

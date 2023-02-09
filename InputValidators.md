@@ -10,23 +10,23 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule
 ```
 
-src/app/services/members.service.ts
+src/app/services/users.service.ts
 ```ts
 import { FormControl, Validators } from '@angular/forms';
 
-declare interface MemberForm {
+declare interface UserForm {
   name?: FormControl,
   age: FormControl
 }
 
-export class MembersService {
+export class UsersService {
   constructor(private commonService: CommonService) {
-    this.memberForm.age.valueChanges.subscribe(($event: string) => {
-      this.member.age = Number($event);
+    this.userForm.age.valueChanges.subscribe(($event: string) => {
+      this.user.age = Number($event);
     });
   }
 
-  memberForm: MemberForm = {
+  userForm: UserForm = {
     age: new FormControl(0, [
       Validators.required,
       Validators.minLength(1),
@@ -38,33 +38,33 @@ export class MembersService {
 }
 ```
 
-src/app/components/contents/members/members.component.html
+src/app/components/contents/users/users.component.html
 ```html
 <input type="text" placeholder="Age"
-  [formControl]="membersService.memberForm.age"
+  [formControl]="usersService.userForm.age"
 >
-<div>membersService.memberForm.age.value: {{membersService.memberForm.age.value}}</div>
-<div>membersService.member.age: {{membersService.member.age}}</div>
+<div>usersService.userForm.age.value: {{usersService.userForm.age.value}}</div>
+<div>usersService.user.age: {{usersService.user.age}}</div>
 <div
-  *ngIf="membersService.memberForm.age.invalid && membersService.memberForm.age.dirty"
+  *ngIf="usersService.userForm.age.invalid && usersService.userForm.age.dirty"
   class="alert-danger"
 >
-  <div *ngIf="membersService.memberForm.age.errors?.required">
-    membersService.memberForm.age is required.
+  <div *ngIf="usersService.userForm.age.errors?.required">
+    usersService.userForm.age is required.
   </div>
-  <div *ngIf="membersService.memberForm.age.errors?.minlength">
-    membersService.memberForm.age must be at least 1 characters long.
+  <div *ngIf="usersService.userForm.age.errors?.minlength">
+    usersService.userForm.age must be at least 1 characters long.
   </div>
-  <div *ngIf="membersService.memberForm.age.errors?.maxlength">
-    membersService.memberForm.age must be at most 3 characters long.
+  <div *ngIf="usersService.userForm.age.errors?.maxlength">
+    usersService.userForm.age must be at most 3 characters long.
   </div>
-  <div *ngIf="membersService.memberForm.age.errors?.pattern">
-    membersService.memberForm.age can only contain alphanumeric.
+  <div *ngIf="usersService.userForm.age.errors?.pattern">
+    usersService.userForm.age can only contain alphanumeric.
   </div>
 </div>
 <button
-  (click)="membersService.membersCreate()"
-  [disabled]="!membersService.memberForm.age.valid"
+  (click)="usersService.usersCreate()"
+  [disabled]="!usersService.userForm.age.valid"
 >Create</button>
 ```
 

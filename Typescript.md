@@ -2,11 +2,11 @@
 
 ## Any 타입에 타입 넣기
 ### Meber 타입 생성하기
-src/app/services/members.service.ts
+src/app/services/users.service.ts
 
 ```ts
-// Member 타입 생성
-declare interface Member {
+// User 타입 생성
+declare interface User {
   name: string,
   age: number | string
 }
@@ -14,109 +14,109 @@ declare interface Member {
 
 ### Mebers 타입 생성하기
 ```ts
-members: Array<Member> = [];
+users: Array<User> = [];
 // or
-members: Member[] = [];
+users: User[] = [];
 ```
 
-## Member.age 타입 수정하기
-### Member.age 타입에 number와 ''만 받기
-src/app/services/members.service.ts
+## User.age 타입 수정하기
+### User.age 타입에 number와 ''만 받기
+src/app/services/users.service.ts
 ```diff
-declare interface Member {
+declare interface User {
   name: string,
 - age: number | string
 + age: number | ''
 }
 ```
 
-### Member.age 타입에 number만 받기
-src/app/services/members.service.ts
+### User.age 타입에 number만 받기
+src/app/services/users.service.ts
 ```diff
-declare interface Member {
+declare interface User {
   name: string,
 - age: number | string
 + age: number
 }
 
-member: Member = {
+user: User = {
   name: '',
 - age: ''
 + age: 0
 };
 ```
 
-src/app/components/contents/members/members.component.ts
+src/app/components/contents/users/users.component.ts
 ```diff
 ngOnInit(): void {
-  this.membersService.member.name = '';
-- this.membersService.member.age = '';
-+ this.membersService.member.age = 0;
-  this.membersService.membersRead();
+  this.usersService.user.name = '';
+- this.usersService.user.age = '';
++ this.usersService.user.age = 0;
+  this.usersService.usersRead();
 }
 ```
 * ❕ 하지만 input 박스에서는 문자가 입력 가능 하다.
 
-src/app/components/contents/members/members.component.html
+src/app/components/contents/users/users.component.html
 ```diff
 <input type="text" placeholder="Age"
-  [ngModel]="membersService.member.age"
-- (ngModelChange)="membersService.member.age = $event"
-+ (ngModelChange)="insertMemberAge($event)"
+  [ngModel]="usersService.user.age"
+- (ngModelChange)="usersService.user.age = $event"
++ (ngModelChange)="insertUserAge($event)"
 >
-+ {{membersService.member.age}}
++ {{usersService.user.age}}
 ```
 * ❕ html 파일에서는 타입을 체크할 수 없다.
 
-src/app/components/contents/members/members.component.ts
+src/app/components/contents/users/users.component.ts
 ```ts
-insertMemberAge($event: string): void {
-  this.membersService.member.age = Number($event);
+insertUserAge($event: string): void {
+  this.usersService.user.age = Number($event);
 }
 ```
 * `void` 설명, `void` -> `string`, `void` -> `undefined` 수정해 보기
 
 ## Optional
 ### input 박스에서 number와 undefined 받기
-src/app/services/members.service.ts
+src/app/services/users.service.ts
 ```diff
-declare interface Member {
+declare interface User {
   name: string,
 - age: number
 + age?: number
 }
 
-member: Member = {
+user: User = {
   name: '',
 - age: 0
 + age: undefined
 };
 ```
 
-src/app/components/contents/members/members.component.ts
+src/app/components/contents/users/users.component.ts
 ```diff
 ngOnInit(): void {
-  this.membersService.member.name = '';
-- this.membersService.member.age = 0;
-+ this.membersService.member.age = undefined;
-  this.membersService.membersRead();
+  this.usersService.user.name = '';
+- this.usersService.user.age = 0;
++ this.usersService.user.age = undefined;
+  this.usersService.usersRead();
 }
 
-insertMemberAge($event: string): void {
-- this.membersService.member.age = Number($event);
-+ this.membersService.member.age = $event === '' ? undefined : Number($event);
+insertUserAge($event: string): void {
+- this.usersService.user.age = Number($event);
++ this.usersService.user.age = $event === '' ? undefined : Number($event);
 }
 ```
 
 ## Optional chaining
-src/app/services/members.service.ts
+src/app/services/users.service.ts
 ```ts
 declare interface OptionalChaining {
   func1?: Function,
   any1: any
 }
 
-export class MembersService {
+export class UsersService {
   optionalChaining: OptionalChaining = {
     func1: function() {
       console.log('func1');
@@ -129,11 +129,11 @@ export class MembersService {
   }
 }
 ```
-src/app/components/contents/members/members.component.ts
+src/app/components/contents/users/users.component.ts
 ```diff
 ngOnInit(): void {
-+ this.membersService.optionalChaining.func1?.();
-+ this.membersService.optionalChaining.any1?.func2?.();
++ this.usersService.optionalChaining.func1?.();
++ this.usersService.optionalChaining.any1?.func2?.();
 }
 ```
 * ❔ `func1`을 `undefined`로 변경 하기
@@ -172,7 +172,7 @@ export const axiosErrorHandler = (error: unknown, thunkAPI: { dispatch: ThunkDis
 import axios, { AxiosResponse } from 'axios';
 
 const response: AxiosResponse<{ result: string }> = yield call(() =>
-  axios.get('http://localshot:3100/api/v1/members')
+  axios.get('http://localshot:3100/api/v1/users')
 );
 
 # Fetch
@@ -183,7 +183,7 @@ declare interface FetchServerResponse extends ServerResponse {
 }
 
 const response: FetchServerResponse = yield call(
-  () => fetch('http://localshot:3100/api/v1/members', {
+  () => fetch('http://localshot:3100/api/v1/users', {
     method: 'GET'
   })
 );
@@ -212,33 +212,33 @@ const response = api.get('');
 ```ts
 import { createSlice } from '@reduxjs/toolkit';
 
-export interface Member {
+export interface User {
   name: string,
   age: string | number
 };
 
-interface MembersState {
-  members: Member[],
-  member: Member
+interface UsersState {
+  users: User[],
+  user: User
 };
 
-export const membersSlice = createSlice({
-  name: '$members',
+export const usersSlice = createSlice({
+  name: '$users',
   initialState: {
-    members: [],
-    member: {
+    users: [],
+    user: {
       name: '',
       age: ''
     }
-  } as MembersState,
+  } as UsersState,
   reducers: {
   }
 });
 
-export const membersState = (state: { $members: MembersState }) => state.$members;
-export const membersActions = membersSlice.actions;
+export const usersState = (state: { $users: UsersState }) => state.$users;
+export const usersActions = usersSlice.actions;
 
-export default membersSlice.reducer;
+export default usersSlice.reducer;
 ```
 
 ## 선언되지 않은 속성 읽기
@@ -250,7 +250,7 @@ const { a2 } = a as unknown as { a2: number };
 ## TSLint 오류들
 ### object[key] 형식으로 접근할때 (TS:7031 암시적으로 'any' 형식이 있습니다)
 ```ts
-declare interface Member {
+declare interface User {
   [key: string]: number;
 }
 ```
