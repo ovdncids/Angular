@@ -255,7 +255,7 @@ export class UsersService {
 }
 ```
 
-### Users Component Service inject
+### Users Component Service 주입
 src/app/components/contents/users/users.component.ts
 ```ts
 import { UsersService } from '../../../services/users.service';
@@ -575,7 +575,7 @@ searchRead(q: string) {
 }
 ```
 
-## Search Component Service inject
+## Search Component Service 주입
 src/app/components/contents/search/search.component.ts
 ```ts
 import { UsersService } from '../../../services/users.service';
