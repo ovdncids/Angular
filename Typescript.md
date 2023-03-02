@@ -247,6 +247,20 @@ const a = { a1: 123 };
 const { a2 } = a as unknown as { a2: number };
 ```
 
+## keyof
+```ts
+interface User {
+  name: string,
+  age: number
+}
+interface K {
+  k: keyof User
+}
+const k = {
+  k: 'name'
+} as K
+```
+
 ## TSLint 오류들
 ### object[key] 형식으로 접근할때 (TS:7031 암시적으로 'any' 형식이 있습니다)
 ```ts
