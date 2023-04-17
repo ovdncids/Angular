@@ -136,9 +136,9 @@ ngOnInit(): void {
 + this.usersService.optionalChaining.any1?.func2?.();
 }
 ```
-* ❔ `func1`을 `undefined`로 변경 하기
-* ❔ `func2`을 `undefined`로 변경 하기
-* ❔ `any1`을 `undefined`로 변경 하기
+* ❔ `func1`을 `undefined`로 변경하기
+* ❔ `func2`을 `undefined`로 변경하기
+* ❔ `any1`을 `undefined`로 변경하기
 * ❔ `func1` 함수에 `return '리턴 func1';` 넣어서 확인해 보기
 
 ### Axios error 타입 가져오기
