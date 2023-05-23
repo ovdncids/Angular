@@ -215,12 +215,12 @@ import { createSlice } from '@reduxjs/toolkit';
 export interface User {
   name: string,
   age: string | number
-};
+}
 
 interface UsersState {
   users: User[],
   user: User
-};
+}
 
 export const usersSlice = createSlice({
   name: '$users',
@@ -253,12 +253,30 @@ interface User {
   name: string,
   age: number
 }
+
 interface K {
-  k: keyof User
+  k: keyof User  // 'name' | 'age'
 }
+
 const k = {
   k: 'name'
-} as K
+} as K;
+```
+
+## Type이 복수인 경우 어떤 Type인지 확인
+```ts
+interface A {
+  a: number
+}
+
+interface B {
+  b: number
+}
+
+const a: A | B = {a: 123};
+const b: A | B = {b: 456};
+console.log('a' in a);  // true
+console.log('b' in a);  // false
 ```
 
 ## TSLint 오류들
