@@ -294,13 +294,11 @@ interface Code {
 
 const code: Code = {
   a: '1',
-  b: '2',
-  c: '3'
+  b: '2'
 }
 
 const expression: Code = {
-  a: 'AA',
-  b: 'BB'
+  a: 'AA'
 }
 
 Object.entries(code).forEach(([key, value]: [keyof Code, string]) => {
