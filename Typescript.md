@@ -285,11 +285,27 @@ const k = {
 interface User {
   [key: string]: number
 }
-
-interface User {
-  name: string,
-  [key: string]: number;
+```
+```ts
+interface Code {
+  a: string,
+  [key: string]: string
 }
+
+const code: Code = {
+  a: '1',
+  b: '2',
+  c: '3'
+}
+
+const expression: Code = {
+  a: 'AA',
+  b: 'BB'
+}
+
+Object.entries(code).forEach(([key, value]: [keyof Code, string]) => {
+  console.log(expression[key] || key, value)
+})
 ```
 <!--
 [propName: string]: any;
