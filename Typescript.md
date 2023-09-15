@@ -282,7 +282,12 @@ console.log('b' in a);  // false
 ## TSLint 오류들
 ### object[key] 형식으로 접근할때 (TS:7031 암시적으로 'any' 형식이 있습니다)
 ```ts
-declare interface User {
+interface User {
+  [key: string]: number
+}
+
+interface User {
+  name: string,
   [key: string]: number;
 }
 ```
