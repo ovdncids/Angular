@@ -241,6 +241,17 @@ export const usersActions = usersSlice.actions;
 export default usersSlice.reducer;
 ```
 
+## Window
+```ts
+declare global {
+  interface Window {
+    naver: any,
+    N: any,
+    MarkerClustering: any
+  }
+}
+```
+
 ## 선언되지 않은 속성 읽기
 ```ts
 const a = { a1: 123 };
