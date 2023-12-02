@@ -252,6 +252,13 @@ declare global {
 }
 ```
 
+## Global
+```ts
+declare global {
+  var naver: any
+}
+```
+
 ## 선언되지 않은 속성 읽기
 ```ts
 const a = { a1: 123 };
