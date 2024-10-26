@@ -140,7 +140,7 @@ input[type=text] {
 }
 ```
 
-## Angular Component 만들기
+## Angular Layout Component 만들기
 header, nav.vue, footer.vue 이렇게 Component 별로 파일을 생성한다.
 ```sh
 ng generate component layout/header
@@ -186,6 +186,8 @@ src/app/app.component.html
 
 <app-footer [title]="'카피라이트'"></app-footer>
 ```
+* NG8103: The `*ngIf` directive was used in the template
+* imports: [NgIf]
 
 src/app/components/footer/footer.component.html
 ```diff
@@ -206,8 +208,8 @@ export class FooterComponent implements OnInit {
 
 ## Angular Router
 ```sh
-ng generate component components/contents/users
-ng generate component components/contents/search
+ng generate component pages/users
+ng generate component pages/search
 ```
 
 src/app/app.component.html
@@ -222,8 +224,8 @@ src/app/app.component.html
 
 src/app/app-routing.module.ts
 ```ts
-import { UsersComponent } from './components/contents/users/users.component';
-import { SearchComponent } from './components/contents/search/search.component';
+import { UsersComponent } from './pages/users/users.component';
+import { SearchComponent } from './pages/search/search.component';
 ```
 ```diff
 - const routes: Routes = [];
@@ -270,7 +272,7 @@ export class UsersService {
 ```
 
 ### Users Component Service 주입
-src/app/components/contents/users/users.component.ts
+src/app/pages/users/users.component.ts
 ```ts
 import { UsersService } from '../../../services/users.service';
 ```
@@ -286,7 +288,7 @@ ngOnInit(): void {
 }
 ```
 
-src/app/components/contents/users/users.component.html
+src/app/pages/users/users.component.html
 ```html
 <div>
   <h3>Users</h3>
@@ -351,7 +353,7 @@ usersCreate(user: User) {
 }
 ```
 
-src/app/components/contents/users/users.component.ts
+src/app/pages/users/users.component.ts
 ```ts
 <input type="text" placeholder="Name"
   [ngModel]="usersService.user.name"
@@ -379,13 +381,13 @@ usersRead() {
 }
 ```
 
-src/app/components/contents/users/users.component.ts
+src/app/pages/users/users.component.ts
 ```ts
 ngOnInit(): void {
   this.usersService.usersRead();
 ```
 
-src/app/components/contents/users/users.component.html
+src/app/pages/users/users.component.html
 ```diff
 - <tr>
 -   <td>홍길동</td>
@@ -406,7 +408,7 @@ usersDelete(index: number) {
 }
 ```
 
-src/app/components/contents/users/users.component.html
+src/app/pages/users/users.component.html
 ```diff
 - <button>Delete</button>
 ```
@@ -423,7 +425,7 @@ usersUpdate(index: number, user: User) {
 }
 ```
 
-src/app/components/contents/users/users.component.html
+src/app/pages/users/users.component.html
 ```diff
 - <td>{user.name}</td>
 - <td>{user.age}</td>
@@ -590,7 +592,7 @@ searchRead(q: string) {
 ```
 
 ## Search Component Service 주입
-src/app/components/contents/search/search.component.ts
+src/app/pages/search/search.component.ts
 ```ts
 import { UsersService } from '../../../services/users.service';
 import { SearchService } from '../../../services/search.service';
@@ -612,7 +614,7 @@ ngOnInit(): void {
 }
 ```
 
-src/app/components/contents/search/search.component.html
+src/app/pages/search/search.component.html
 ```html
 <div>
   <h3>Search</h3>
@@ -644,13 +646,13 @@ src/app/components/contents/search/search.component.html
 ```
 
 ## Search Component에서만 사용 가능한 state값 적용
-src/app/components/contents/search/search.component.ts
+src/app/pages/search/search.component.ts
 ```ts
 export class SearchComponent implements OnInit {
   q = '';
 ```
 
-src/app/components/contents/search/search.component.html
+src/app/pages/search/search.component.html
 ```diff
 - <form>
 -   <input type="text" placeholder="Search" />
@@ -668,7 +670,7 @@ src/app/components/contents/search/search.component.html
 ```
 
 ## Search Component 쿼리스트링 변경
-src/app/components/contents/search/search.component.ts
+src/app/pages/search/search.component.ts
 ```ts
 import { Router } from '@angular/router';
 ```
@@ -689,7 +691,7 @@ searchRead(q: string): void {
 }
 ```
 
-src/app/components/contents/search/search.component.html
+src/app/pages/search/search.component.html
 ```diff
 - <form (submit)="searchService.searchRead(q)">
 + <form (submit)="searchRead(q)">
