@@ -1,5 +1,6 @@
-# Angular
-[데모](https://curriculums-min.web.app)
+# Angular - Standalone(17버전 이후) - 18.2.10
+* https://angular.dev
+* [데모](https://curriculums-min.web.app)
 
 ## Node.js
 https://nodejs.org
@@ -16,10 +17,13 @@ npm install -g @angular/cli
 
 # Angular 프로젝트 생성
 ng new angular-study
-## Would you like to enable autocompletion? This will set up your terminal so pressing TAB while typing Angular CLI commands will show possible options and autocomplete arguments. (Enabling autocompletion will modify configuration files in your home directory.) N
-### 자동 완성을 .zshrc 설정 파일에 넣는다. N
+## node 18.19 이상 버전 필요
+## Would you like to enable autocompletion? This will set up your terminal so pressing TAB while typing Angular CLI commands will show possible options and autocomplete arguments. (Enabling autocompletion will modify configuration files in your home directory.) Y
+### 자동 완성을 .zshrc 설정 파일에 넣는다. Y
+## Which stylesheet format would you like to use? Sass (SCSS)
+## Do you want to enable Server-Side Rendering (SSR) and Static Site Generation 
+(SSG/Prerendering)? N
 ## Would you like to add Angular routing? Y
-## Which stylesheet format would you like to use? SCSS
 
 cd angular-study
 code .
@@ -139,9 +143,9 @@ input[type=text] {
 ## Angular Component 만들기
 header, nav.vue, footer.vue 이렇게 Component 별로 파일을 생성한다.
 ```sh
-ng generate component components/header
-ng generate component components/nav
-ng generate component components/footer
+ng generate component layout/header
+ng generate component layout/nav
+ng generate component layout/footer
 ```
 
 src/app/app.component.html
@@ -162,6 +166,16 @@ src/app/app.component.html
 - <footer>Copyright</footer>
 + <app-footer></app-footer>
 ```
+
+src/app/app.component.ts
+```ts
+import { HeaderComponent } from "./layout/header/header.component";
+
+@Component({
+  imports: [RouterOutlet, HeaderComponent]
+})
+```
+* `Standalone`이 아닌 경우 자동 `import` 된다.
 
 ## hidden, *ngIf, props
 src/app/app.component.html
