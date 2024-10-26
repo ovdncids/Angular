@@ -281,19 +281,19 @@ export class UsersService {
 ### Users Component Service 주입
 src/app/pages/users/users.component.ts
 ```ts
-import { UsersService } from '../../../services/users.service';
-```
-```diff
-- constructor() { }
-+ constructor(public usersService: UsersService) { }
-```
-```ts
-ngOnInit(): void {
-  console.log(this.usersService.user);
-  this.usersService.user.name = '';
-  this.usersService.user.age = '';
+import { UsersService } from "../../services/users.service";
+
+export class UsersComponent {
+  constructor(public usersService: UsersService) { }
+
+  ngOnInit(): void {
+    console.log(this.usersService.user);
+    this.usersService.user.name = '';
+    this.usersService.user.age = '';
+  }
 }
 ```
+* `Router` 변경해 보기
 
 src/app/pages/users/users.component.html
 ```html
@@ -332,16 +332,6 @@ src/app/pages/users/users.component.html
 </div>
 ```
 
-src/app/app.module.ts
-```ts
-import { FormsModule } from '@angular/forms';
-```
-```ts
-@NgModule({
-  imports: [
-    FormsModule
-```
-
 **debugger 설명**
 ```js
 debugger
@@ -349,6 +339,13 @@ debugger
 
 ## Users Service CRUD
 ### Create
+src/app/pages/users/users.component.ts 또는 src/app/app.module.ts
+```ts
+import { FormsModule } from '@angular/forms';
+
+imports: [FormsModule]
+```
+
 src/app/services/users.service.ts
 ```ts
 usersCreate(user: User) {
@@ -390,6 +387,8 @@ usersRead() {
 
 src/app/pages/users/users.component.ts
 ```ts
+imports: [NgFor],
+
 ngOnInit(): void {
   this.usersService.usersRead();
 ```
@@ -484,7 +483,7 @@ src/app/services/common.service.js
 export class CommonService {
   axiosError(error: any) {
     console.error(error.response || error.message || error);
-  };
+  }
 ```
 
 src/app/services/users.service.ts
@@ -601,23 +600,21 @@ searchRead(q: string) {
 ## Search Component Service 주입
 src/app/pages/search/search.component.ts
 ```ts
-import { UsersService } from '../../../services/users.service';
-import { SearchService } from '../../../services/search.service';
-```
-```diff
-- constructor() { }
+import { NgFor } from "@angular/common";
+import { UsersService } from '../../services/users.service';
+import { SearchService } from '../../services/search.service';
 
-- ngOnInit(): void {
-- }
-```
-```ts
-constructor(
-  public usersService: UsersService,
-  public searchService: SearchService
-) { }
+imports: [NgFor],
 
-ngOnInit(): void {
-  this.searchService.searchRead('');
+export class SearchComponent {
+  constructor(
+    public usersService: UsersService,
+    public searchService: SearchService
+  ) { }
+
+  ngOnInit(): void {
+    this.searchService.searchRead('');
+  }
 }
 ```
 
@@ -655,7 +652,11 @@ src/app/pages/search/search.component.html
 ## Search Component에서만 사용 가능한 state값 적용
 src/app/pages/search/search.component.ts
 ```ts
-export class SearchComponent implements OnInit {
+import { FormsModule } from "@angular/forms";
+
+imports: [FormsModule],
+
+export class SearchComponent {
   q = '';
 ```
 
@@ -686,15 +687,14 @@ constructor(
   public usersService: UsersService,
   public searchService: SearchService,
 + private router: Router
-) { }
-```
-```ts
-searchRead(q: string): void {
-  this.router.navigate(['/search'], {
-    queryParams: {
-      q: q
-    }
-  });
+) {
+  searchRead(q: string): void {
+    this.router.navigate(['/search'], {
+      queryParams: {
+        q: q
+      }
+    });
+  }
 }
 ```
 
@@ -706,37 +706,29 @@ src/app/pages/search/search.component.html
 `검색`, `뒤로가기` 해보기
 
 ## Search Component 새로고침 적용
+src/app/pages/search/search.component.ts
 ```diff
 - import { Router } from '@angular/router';
 + import { ActivatedRoute, Router } from '@angular/router';
 ```
 ```diff
-- constructor(
--   public usersService: UsersService,
--   public searchService: SearchService,
--   private router: Router
-- ) { }
-```
-```ts
 constructor(
   public usersService: UsersService,
   public searchService: SearchService,
-  private route: ActivatedRoute,
++   private route: ActivatedRoute,
   private router: Router
 ) {
-  this.route.queryParams.subscribe(queryParams => {
-    this.q = queryParams['q'] || ''
-    this.searchService.searchRead(this.q);
-  });
-}
-```
-```diff
-ngOnInit(): void {
-- this.searchService.searchRead('');
+  ngOnInit(): void {
+-   this.searchService.searchRead('');
+    this.route.queryParams.subscribe(queryParams => {
+      this.q = queryParams['q'] || ''
+      this.searchService.searchRead(this.q);
+    });
+  }
 }
 ```
 
-## Proxy 설정
+## 18버전 전 - Proxy 설정
 proxy.conf.json
 ```json
 {
