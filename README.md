@@ -189,13 +189,13 @@ src/app/app.component.html
 * NG8103: The `*ngIf` directive was used in the template
 * imports: [NgIf]
 
-src/app/components/footer/footer.component.html
+src/app/layout/footer/footer.component.html
 ```diff
 - <footer>Copyright</footer>
 + <footer>{{title}}</footer>
 ```
 
-src/app/components/footer/footer.component.ts
+src/app/layout/footer/footer.component.ts
 ```diff
 - import { Component, OnInit } from '@angular/core';
 import { Component, Input, OnInit } from '@angular/core';
@@ -222,16 +222,16 @@ src/app/app.component.html
 +   <router-outlet></router-outlet>
 ```
 
-src/app/app-routing.module.ts
+src/app/app.routes.ts
 ```ts
 import { UsersComponent } from './pages/users/users.component';
 import { SearchComponent } from './pages/search/search.component';
 ```
 ```diff
-- const routes: Routes = [];
+- export const routes: Routes = [];
 ```
 ```ts
-const routes: Routes = [
+export const routes: Routes = [
   { path: 'users', component: UsersComponent },
   { path: 'search', component: SearchComponent },
   { path: '', redirectTo: '/users', pathMatch: 'full' }
@@ -240,10 +240,17 @@ const routes: Routes = [
 
 **주소 창에서 router 바꾸어 보기**
 
-src/app/components/nav/nav.component.html
+src/app/layout/nav/nav.component.html
 ```html
 <li><h2><a routerLink="/users" routerLinkActive="active">Users</a></h2></li>
 <li><h2><a routerLink="/search" routerLinkActive="active">Search</a></h2></li>
+```
+
+src/app/layout/nav/nav.component.ts
+```ts
+import { RouterModule } from "@angular/router";
+
+imports: [RouterModule]
 ```
 
 **여기 까지가 Markup 개발자 분들이 할일 입니다.**
