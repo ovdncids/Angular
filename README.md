@@ -728,7 +728,7 @@ constructor(
 }
 ```
 
-## 18버전 전 - Proxy 설정
+## Proxy 설정 - Standalone 전
 proxy.conf.json
 ```json
 {
