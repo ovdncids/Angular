@@ -728,7 +728,49 @@ constructor(
 }
 ```
 
-## Proxy 설정 - Standalone 전
+## Proxy 설정
+* https://angular.dev/tools/cli/serve#proxying-to-a-backend-server
+
+모든 파일 수정
+```diff
+- http://localhost:3100/api
++ /api
+```
+
+src/proxy.conf.json
+```json
+{
+   "/api": {
+     "target": "http://localhost:3100",
+     "secure": false
+   }
+ }
+```
+
+angular.json
+```json
+{
+  "projects": {
+    "my-app": {
+      "architect": {
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "proxyConfig": "src/proxy.conf.json"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+당황 하지 말고 다시 실행
+```sh
+ng serve
+```
+
+### Standalone 이전
 proxy.conf.json
 ```json
 {
@@ -742,12 +784,6 @@ package.json
 ```diff
 - "start": "ng serve",
 + "start": "ng serve --open --proxy-config proxy.conf.json",
-```
-
-모든 파일 수정
-```diff
-- http://localhost:3100/api
-+ /api
 ```
 
 당황 하지 말고 다시 실행
