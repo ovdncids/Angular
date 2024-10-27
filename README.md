@@ -357,7 +357,7 @@ usersCreate(user: User) {
 }
 ```
 
-src/app/pages/users/users.component.ts
+src/app/pages/users/users.component.html
 ```ts
 <input type="text" placeholder="Name"
   [ngModel]="usersService.user.name"
@@ -687,14 +687,14 @@ constructor(
   public usersService: UsersService,
   public searchService: SearchService,
 + private router: Router
-) {
-  searchRead(q: string): void {
-    this.router.navigate(['/search'], {
-      queryParams: {
-        q: q
-      }
-    });
-  }
+) { }
+
+searchRead(q: string): void {
+  this.router.navigate(['/search'], {
+    queryParams: {
+      q: q
+    }
+  });
 }
 ```
 
@@ -717,14 +717,14 @@ constructor(
   public searchService: SearchService,
 +   private route: ActivatedRoute,
   private router: Router
-) {
-  ngOnInit(): void {
--   this.searchService.searchRead('');
-    this.route.queryParams.subscribe(queryParams => {
-      this.q = queryParams['q'] || ''
-      this.searchService.searchRead(this.q);
-    });
-  }
+) { }
+
+ngOnInit(): void {
+- this.searchService.searchRead('');
+  this.route.queryParams.subscribe(queryParams => {
+    this.q = queryParams['q'] || ''
+    this.searchService.searchRead(this.q);
+  });
 }
 ```
 
